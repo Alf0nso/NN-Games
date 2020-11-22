@@ -1,0 +1,28 @@
+* The Boards
+
+** TIC TAC TOE
+
+Tic tac toe board and game are of quite easy implementation.
+Just a couple of lines of python and we have it!
+The board will be presented as a list with lists, the reason
+for this being that is easier to build a function able
+to construct any kind of strategy board that could possibly
+be used in other games
+
+#+begin_src python :results output
+import tic_tac_toe as tic
+
+board = tic.build_board(3,3)
+tic.print_board(board)
+#+end_src
+
+#+RESULTS:
+: 
+:  _ _ _ 
+: | | | |
+: 
+: | | | |
+: 
+: | | | |
+: 
+
