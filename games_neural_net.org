@@ -1,15 +1,32 @@
-* The Boards
+#+TITLE: Neural Networks To Solve Simple Games
+#+AUTHOR: Afonso Rafael
+#+EMAIL: afonsorafael@sapo.pt
+#+INFOJS_OPT: view:showall toc:t ltoc:t mouse:underline path:http://orgmode.org/org-info.js
+#+OPTIONS: H:2 num:nil toc:nil @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+HEADER: :eval never
+#+OPTIONS: num:nil \n:t
+
+* The Games
 
 ** TIC TAC TOE
 
-Tic tac toe board and game are of quite easy implementation.
-Just a couple of lines of python and we have it!
-The board will be presented as a list with lists, the reason
-for this being that is easier to build a function able
-to construct any kind of strategy board that could possibly
-be used in other games
+*** The Game Board
 
-#+begin_src python :results output
+The *Tic-tac-toe* board and game loop are of quite easy implementation.
+Everyone knows the board is just a simple 3 by 3 grid, where the players
+are able to put the symbols "X" and "O", that help distinguish /player/
+/1/ from /player 2/.
+The board will be presented as lists within lists, the reason for this 
+being that is easier to change and alter lists compared to tuples. I Also 
+built a function that is able to generate any kind of grid board of any 
+size.
+
+As you can see in the following piece of code, we are able to build
+and present in ASCII a *Tic-tac-toe* game board.
+
+#+begin_src python :results output :exports both
 import tic_tac_toe as tic
 
 board = tic.build_board(3,3)
@@ -18,11 +35,17 @@ tic.print_board(board)
 
 #+RESULTS:
 : 
-:  _ _ _ 
+: +-+-+-+
 : | | | |
-: 
+: +-+-+-+
 : | | | |
-: 
+: +-+-+-+
 : | | | |
-: 
+: +-+-+-+
+
+#+begin_src python :results output
+
+#+end_src
+
+*** The Rules Of The Game
 

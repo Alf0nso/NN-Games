@@ -32,7 +32,7 @@ def build_board(r, c):
     function, it's being used here but
     should be changed into a "utils" file.
     """
-    return [[" "] * c] * r
+    return [[" "] * c for i in range(r)]
 
 
 def print_board(board):
@@ -44,14 +44,37 @@ def print_board(board):
     """
     # clear()
     print()
-    print(" _ _ _ ")
+    print("+-" * len(board[0]) + "+")
     for row in board:
         print("", end="|")
         for cell in row:
             print(cell, end="|")
-        print("\n")
+        print()
+        print("+-" * len(row) + "+")
     return(0)
 
+# Tic Tac Toe Specific functions
+#
+
+
+def insert_play(board, r, c, symbol, history=None):
+    board[r][c] = symbol
+    if history is not None:
+        history.append([r, c, symbol])
+    return 0
+
+
+def check_if_game_ended(board):
+    for line in board:
+        if(line[0] == line[1] == line[2]):
+            return True
+    for column in range(len(board)):
+        if(board[0][column] == board[1][column] == board[2][column]):
+            return True
+    if(board[0][0] == board[1][1] == board[2][2] or
+       board[0][2] == board[1][1] == board[2][0]):
+        return True
+    return False
 
 
 def play():
@@ -62,7 +85,16 @@ def play():
     it's own passing.
     """
     # A board is created with the respective
-    # method
-    board = build_board()
-    print_board(board)
+    # method, and hostory list is created as
+    # well, to save the data of the game
+    board = build_board(3, 3)
+    history = []
+    # Start the game
+    while(check_if_game_ended(board)):
+        print_board(board)
+        print()
+        # We are assuming that "X" is the player one
+        print("Player 1 (X)")
+        print()
+        insert_play(board, input("row: "), input("column: "), "X", history)
     return 0
