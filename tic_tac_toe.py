@@ -58,7 +58,7 @@ def print_board(board):
 
 
 def insert_play(board, r, c, symbol, history=None):
-    board[r][c] = symbol
+    board[int(r) - 1][int(c) - 1] = symbol
     if history is not None:
         history.append([r, c, symbol])
     return 0
@@ -66,15 +66,24 @@ def insert_play(board, r, c, symbol, history=None):
 
 def check_if_game_ended(board):
     for line in board:
-        if(line[0] == line[1] == line[2]):
-            return True
+        if(line[0] == line[1] == line[2] == "X"):
+            return [False, "X"]
+        if(line[0] == line[1] == line[2] == "O"):
+            return [False, "O"]
     for column in range(len(board)):
-        if(board[0][column] == board[1][column] == board[2][column]):
-            return True
-    if(board[0][0] == board[1][1] == board[2][2] or
-       board[0][2] == board[1][1] == board[2][0]):
-        return True
-    return False
+        if(board[0][column] == board[1][column]
+           == board[2][column] == "X"):
+            return [False, "X"]
+        if(board[0][column] == board[1][column]
+           == board[2][column] == "O"):
+            return [False, "O"]
+    if(board[0][0] == board[1][1] == board[2][2] == "X" or
+       board[0][2] == board[1][1] == board[2][0] == "X"):
+        return [False, "X"]
+    if(board[0][0] == board[1][1] == board[2][2] == "O" or
+       board[0][2] == board[1][1] == board[2][0] == "O"):
+        return [False, "O"]
+    return [True]
 
 
 def play():
@@ -90,11 +99,31 @@ def play():
     board = build_board(3, 3)
     history = []
     # Start the game
-    while(check_if_game_ended(board)):
-        print_board(board)
+    clear()
+    while(check_if_game_ended(board)[0]):
         print()
+
         # We are assuming that "X" is the player one
-        print("Player 1 (X)")
+        print("Player 2 (O)" if
+              len(history) % 2 != 0
+              else "Player 1 (X)")
         print()
-        insert_play(board, input("row: "), input("column: "), "X", history)
+        row = int(input("row number: "))
+        column = int(input("column number: "))
+        while(row > 3 or row < 1
+              or column > 3 or column < 1
+              or board[row - 1][column - 1] != " "):
+            print("Cell " +
+                  "already occupied" if board[row - 1][column - 1] != " "
+                  else "Row and Column" +
+                  "number needs to be between 1 and 3")
+            row = int(input("row number: "))
+            column = int(input("column number: "))
+        #
+        #
+        insert_play(board, row, column, "O" if
+                    len(history) % 2 != 0
+                    else "X", history)
+        print_board(board)
+    print(history)
     return 0
