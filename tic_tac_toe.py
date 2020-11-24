@@ -83,7 +83,11 @@ def check_if_game_ended(board):
     if(board[0][0] == board[1][1] == board[2][2] == "O" or
        board[0][2] == board[1][1] == board[2][0] == "O"):
         return [False, "O"]
-    return [True]
+
+    for line in board:
+        if(" " in line):
+            return [True]
+    return [False, "D"]
 
 
 def play():
@@ -93,23 +97,31 @@ def play():
     the logic will happen with
     it's own passing.
     """
+
     # A board is created with the respective
     # method, and hostory list is created as
     # well, to save the data of the game
     board = build_board(3, 3)
     history = []
+
     # Start the game
     clear()
+
+    # The game loop
     while(check_if_game_ended(board)[0]):
         print()
 
-        # We are assuming that "X" is the player one
+        # The Player 1 will always play X
         print("Player 2 (O)" if
               len(history) % 2 != 0
               else "Player 1 (X)")
+
         print()
+
+        # Get the input of row and column
         row = int(input("row number: "))
         column = int(input("column number: "))
+
         while(row > 3 or row < 1
               or column > 3 or column < 1
               or board[row - 1][column - 1] != " "):
@@ -119,11 +131,16 @@ def play():
                   "number needs to be between 1 and 3")
             row = int(input("row number: "))
             column = int(input("column number: "))
-        #
+
+        # Insert the play on the board
         #
         insert_play(board, row, column, "O" if
                     len(history) % 2 != 0
                     else "X", history)
+
+        # Print the board
         print_board(board)
+
+    history.append(check_if_game_ended(board)[1])
     print(history)
     return 0
