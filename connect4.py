@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 def create_board(row, col):
@@ -21,7 +22,7 @@ def available_rows(board, col):
     """
     This function returns the next empty row in which the new piece will land and the player makes his move.
     """
-    for row in range(5):
+    for row in range(6):
         if board[row][col] == 0:
             return row
 
@@ -42,7 +43,7 @@ def print_board(board):
     print(np.flip(board, 0))
 
 
-def win_or_draw(board, piece):
+def win(board, piece):
     """
     Here we assign the rules for winning the game.
     If a player manages to set 4 pieces in a row vertically, horizontally or diagonally, they win.
@@ -73,7 +74,7 @@ def win_or_draw(board, piece):
                 return True
 
 
-def play_game():
+def play_game(game_type='pp'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
@@ -87,6 +88,7 @@ def play_game():
     board_full = False
     turn = 0
 
+
     while not game_over or board_full:
         if 0 not in board:
             board_full = True
@@ -95,7 +97,10 @@ def play_game():
 
         if turn % 2 == 0:
             # Player 1 plays first and always pair turns
-            player1_move = int(input('Player 1 please choose a number (0,6): '))
+            if game_type == 'pp':
+                player1_move = int(input('Player 1 please choose a number (0,6): '))
+            if game_type == 'r':
+                player1_move = random.randint(0,6)
 
             if valid_move(board, player1_move):
                 row = available_rows(board, player1_move)
@@ -104,13 +109,16 @@ def play_game():
 
                 print_board(board)
 
-                if win_or_draw(board, 1):
+                if win(board, 1):
                     print('PLAYER 1 WINS!')
                     history.append(2)
                     game_over = True
         else:
             # Player 2 plays second and always odd turns
-            player2_move = int(input('Player 2 please choose a number (0,6): '))
+            if game_type == 'pp':
+                player2_move = int(input('Player 2 please choose a number (0,6): '))
+            if game_type == 'r':
+                player2_move = random.randint(0, 6)
 
             if valid_move(board, player2_move):
                 row = available_rows(board, player2_move)
@@ -119,7 +127,7 @@ def play_game():
 
             print_board(board)
 
-            if win_or_draw(board, 2):
+            if win(board, 2):
                 print('PLAYER 2 WINS!')
                 history.append(2)
                 game_over = True
@@ -127,3 +135,6 @@ def play_game():
         turn += 1
 
     print(history)
+
+
+play_game(game_type='r')
