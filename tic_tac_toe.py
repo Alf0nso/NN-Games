@@ -1,60 +1,20 @@
 # Tic tac toe
 #
+# @Author: Afonso Rafael & Renata
+#
 # Tic tac toe game on python, implementation used
-# to learn about neural networks
+# to learn about neural networks. It uses generic
+# functions built on the 'utils.py' file to generate
+# the board, clear the terminal and print characters
+# to the screen. The game can be played by two human
+# players on the same computer.
 
-import os
+import utils as ut
+import random
 
 # Board format should be something like:
 #
-# (["X","O"," "],[" "," ","O"],[" "," "," "])
-#
-
-
-def clear():
-    """
-    Simply clears any terminal screen.
-    Only meant to make things more readable.
-    Should be moved into a separate file
-    called "utils"
-    """
-    if os.name == 'nt':
-        _ = os.system('cls')
-
-    else:
-        _ = os.system('clear')
-
-
-def build_board(r, c):
-    """
-    Any board that can be represented on a
-    tabular manner can be created with this
-    function, it's being used here but
-    should be changed into a "utils" file.
-    """
-    return [[" "] * c for i in range(r)]
-
-
-def print_board(board):
-    """
-    Prints the board of tic_tac_toe
-    can be used to print any game
-    state, final result, or just the empty
-    board.
-    """
-    # clear()
-    print()
-    print("+-" * len(board[0]) + "+")
-    for row in board:
-        print("", end="|")
-        for cell in row:
-            print(cell, end="|")
-        print()
-        print("+-" * len(row) + "+")
-    return(0)
-
-# Tic Tac Toe Specific functions
-#
+# [["X","O"," "],[" "," ","O"],[" "," "," "]]
 
 
 def insert_play(board, r, c, symbol, history=None):
@@ -90,7 +50,7 @@ def check_if_game_ended(board):
     return [False, "D"]
 
 
-def play():
+def play(game_type="pp"):
     """
     The main cycle of the
     tic_tac_toe game, here all
@@ -101,11 +61,11 @@ def play():
     # A board is created with the respective
     # method, and history list is created as
     # well, to save the data of the game
-    board = build_board(3, 3)
+    board = ut.build_board(3, 3)
     history = []
 
     # Start the game
-    clear()
+    ut.clear()
 
     # The game loop
     while(check_if_game_ended(board)[0]):
@@ -119,18 +79,32 @@ def play():
         print()
 
         # Get the input of row and column
-        row = int(input("row number: "))
-        column = int(input("column number: "))
-
-        while(row > 3 or row < 1
-              or column > 3 or column < 1
-              or board[row - 1][column - 1] != " "):
-            print("Cell " +
-                  "already occupied" if board[row - 1][column - 1] != " "
-                  else "Row and Column" +
-                  "number needs to be between 1 and 3")
+        if game_type == "pp":
             row = int(input("row number: "))
             column = int(input("column number: "))
+
+        elif game_type == "r":
+            row = random.randint(1, 3)
+            column = random.randint(1, 3)
+
+        while(True):
+            if(row <= 3 and row >= 1 and
+               column <= 3 and column >= 1):
+                if(board[row - 1][column - 1] != " "):
+                    print("Cell already occupied")
+                else:
+                    break
+            else:
+                print("Cell position doesn't" +
+                      "exist, the board is 3 by 3!")
+
+            if game_type == "pp":
+                row = int(input("row number: "))
+                column = int(input("column number: "))
+
+            elif game_type == "r":
+                row = random.randint(1, 3)
+                column = random.randint(1, 3)
 
         # Insert the play on the board
         #
@@ -139,8 +113,7 @@ def play():
                     else "X", history)
 
         # Print the board
-        print_board(board)
+        ut.print_board(board)
 
     history.append(check_if_game_ended(board)[1])
-    print(history)
-    return 0
+    return history
