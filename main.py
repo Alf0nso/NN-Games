@@ -1,3 +1,4 @@
-import tic_tac_toe as tic
+import games_generator as gg
 
-tic.play()
+# generate games
+gg.gen_tic_tac_toe_games(5)
