@@ -99,7 +99,7 @@ def play():
     """
 
     # A board is created with the respective
-    # method, and hostory list is created as
+    # method, and history list is created as
     # well, to save the data of the game
     board = build_board(3, 3)
     history = []
