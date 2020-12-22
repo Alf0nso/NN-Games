@@ -74,7 +74,7 @@ def win(board, piece):
                 return True
 
 
-def play_game(game_type='pp'):
+def play(game_type='pp'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
@@ -101,6 +101,10 @@ def play_game(game_type='pp'):
                 player1_move = int(input('Player 1 please choose a number (0,6): '))
             if game_type == 'r':
                 player1_move = random.randint(0,6)
+            #if game_type == 'pp_r':
+            #   player1_move = NN has to make a prediction
+            # if game_type == 'r_nn':
+            #   player1_move = random.randint(0, 6)
 
             if valid_move(board, player1_move):
                 row = available_rows(board, player1_move)
@@ -119,6 +123,10 @@ def play_game(game_type='pp'):
                 player2_move = int(input('Player 2 please choose a number (0,6): '))
             if game_type == 'r':
                 player2_move = random.randint(0, 6)
+            # if game_type == 'nn_r':
+            #   player2_move = random.randint(0, 6)
+            # if game_type == 'r_nn':
+            #   NN has to make a prediction
 
             if valid_move(board, player2_move):
                 row = available_rows(board, player2_move)
@@ -135,6 +143,4 @@ def play_game(game_type='pp'):
         turn += 1
 
     print(history)
-
-
-play_game(game_type='r')
+    return history
