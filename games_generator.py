@@ -5,8 +5,7 @@
 #import tic_tac_toe as tic
 
 
-def gen_games(game, n_games, path=None,
-                          file_name="games"):
+def gen_games(game, n_games, path=None, file_name="games"):
     if path is None:
         file_ = open(file_name, "w")
     else:

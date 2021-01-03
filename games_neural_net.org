@@ -1,3 +1,4 @@
+#+STARTUP: hideblocks latexpreview
 #+TITLE: Neural Networks To Solve Simple Games
 #+AUTHOR: Afonso Rafael
 #+EMAIL: afonsorafael@sapo.pt
@@ -8,6 +9,7 @@
 #+EXPORT_EXCLUDE_TAGS: noexport
 #+HEADER: :eval never
 #+OPTIONS: num:nil \n:t
+
 
 * The Games
 
@@ -92,4 +94,214 @@ of squared board, even a chess one!
 
 
 *** The Rules Of The Game
+* The Neural Networks
+
+** Basic Set Up
+
+Having it simply, a neural net
+is just neurons + weights +
+bias.
+
+#+begin_src dot :file neural_net.png
+digraph G {
+
+        rankdir=LR
+	splines=line
+        
+        node [fixedsize=true, label=""];
+
+        subgraph cluster_0 {
+		color=white;
+		node [style=solid,color=blue4, shape=circle];
+		x1 x2 x3;
+		label = "layer 1 (Input layer)";
+	}
+
+	subgraph cluster_1 {
+		color=white;
+		node [style=solid,color=red2, shape=circle];
+		a12 a22 a32;
+		label = "layer 2 (hidden layer)";
+	}
+
+	subgraph cluster_2 {
+		color=white;
+		node [style=solid,color=seagreen2, shape=circle];
+		O;
+		label="layer 3 (output layer)";
+	}
+
+        x1 -> a12;
+        x1 -> a22;
+        x1 -> a32;
+        x2 -> a12;
+        x2 -> a22;
+        x2 -> a32;
+        x3 -> a12;
+        x3 -> a22;
+        x3 -> a32;
+
+        a12 -> O
+        a22 -> O
+        a32 -> O
+
+}
+#+end_src
+
+#+RESULTS:
+#+ATTR_ORG: :width 400
+[[file:neural_net.png]]
+
+*Forward pass* -> /Move forward through the network/
+
+*Neurons For Activations* (a)
+*Weights* (w)
+*Biases* (b)
+
+\[a^{(l)} = \sigma(Wa^{l-1} + b) \]
+
+After having the output, we measure
+how good it is.
+
+\[C = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^{2}\]
+
+Commonly called /Mean Squared Error/ (*MSE*).
+After this we go back and try to optimize
+the weights and bias so that the cost
+function is optimized.
+
+The weights are changed through the
+*gradient*:
+
+\[\frac{\partial C}{\partial w^{(L)}}
+    =
+    \frac{\partial C}{\partial a^{(L)}}
+    \frac{\partial a^{(L)}}{\partial z^{(L)}}
+    \frac{\partial z^{(L)}}{\partial w^{(L)}}\]
+
+We go trough every weight
+and do a subtraction based on:
+
+\[w^{(L)} = w^{(L)} - \text{learning rate} \times \frac{\partial C}{\partial w^{(L)}}\]
+
+with this we have the average set up.
+** Neurons
+
+Inspired by our brains..
+Neurons hold numbers and each
+connection holds a weight.
+
+The neurons are split between
+|-------+--------+--------------|
+| *Input* | *Hidden* | *Output Layer* |
+|-------+--------+--------------|
+
+Neurons an activation number between
+0 and 1, (using *sigmoid function*)
+** Activation Functions
+
+Picking up all the neuron values
+multiplying by their weights is
+the first step.
+
+There is also an *activation function*!
+
+- sigmoid:
+
+    scales everything between
+    0 and 1, (logistic function)
+
+    \[\sigma = \frac{1}{1+e^{-x}}\]
+
+There are many *activation functions*
+available to be used in neural nets.
+
+The last element is the *Bias* which
+tells us when the value of a neuron
+starts being valuable.
+** The Maths on Gradients
+
+If one needs to calculate the next
+layer, it needs to have the previous
+one.
+
+\[a^{(1)}=
+    \sigma\left(
+    \boldsymbol{W}\boldsymbol{a}^{0}+\boldsymbol{b}
+    \right)\]
+
+This is how we move forward and get
+to the final output... but how do
+we go backwards?
+
+For starters, there is a cost
+function to tell us how far off
+are we from what we want
+
+\[C=(a^{(L)}-y)^2\]
+
+where (y) is just the output
+we want to have in the end.
+
+We want to minimize *C* to do
+that we need to know what affects it
+and it's relation with the function...
+Calculus can help us with that;
+
+\[\frac{\partial C}{\partial w^{(L)}}
+    =
+    \frac{\partial C}{\partial a^{(L)}}
+    \frac{\partial a^{(L)}}{\partial z^{(L)}}
+    \frac{\partial z^{(L)}}{\partial w^{(L)}}
+    =
+    2 \left(a^{(L)} - y \right) \sigma' \left(z^{(L)}\right) a^{(L-1)}\]
+
+The ration between the cost function
+and the Weights & Biases. The ones
+with large ratio have the largest
+impact!
+** Calculating the Gradient
+
+To move back and update the weights
+and biases three equations are used:
+
+\[\frac{\partial C}{\partial w^{(L)}}
+    =
+    \frac{\partial C}{\partial a^{(L)}}
+    \frac{\partial a^{(L)}}{\partial z^{(L)}}
+    \frac{\partial z^{(L)}}{\partial w^{(L)}}\]
+
+\[\frac{\partial C}{\partial b^{(L)}}
+    =
+    \frac{\partial C}{\partial a^{(L)}}
+    \frac{\partial a^{(L)}}{\partial z^{(L)}}
+    \frac{\partial z^{(L)}}{\partial b^{(L)}}\]
+
+\[\frac{\partial C}{\partial a^{(L-1)}}
+    =
+    \frac{\partial C}{\partial a^{(L)}}
+    \frac{\partial a^{(L)}}{\partial z^{(L)}}
+    \frac{\partial z^{(L)}}{\partial a^{(L-1)}}\]
+
+This equations give us what
+we want to optimize... to
+actually optimize it we must step
+in the direction of the output of
+this equations.
+
+After calculating all the ratios
+we save everything on the
+*gradient vector*;
+
+\[-\nabla C(w_1, b_1,..., w_n, b_n)\]
+
+Data is sampled and used to update
+the values we want to change!
+
+\[w^{(l)} = w^{(l)} - \text{learning rate} \times \frac{\partial C}{\partial w^{(l)}}\]
+
+
+
+
+\[b^{(l)} = b^{(l)} - \text{learning rate} \times \frac{\partial C}{\partial b^{(l)}}\]
 

@@ -13,14 +13,18 @@ def create_board(row, col):
 
 def valid_move(board, col):
     """
-    This verifies if the column the players choose is empty (== 0) at least in the last row (first from the top).
+    This verifies if the column the players
+    choose is empty (== 0) at least in the last
+    row (first from the top).
     """
     return board[5][col] == 0
 
 
 def available_rows(board, col):
     """
-    This function returns the next empty row in which the new piece will land and the player makes his move.
+    This function returns the next empty row
+    in which the new piece will land and the
+    player makes his move.
     """
     for row in range(6):
         if board[row][col] == 0:
@@ -30,7 +34,8 @@ def available_rows(board, col):
 def drop_piece(board, row, col, piece):
     """
     This function updates the board.
-    It changes the row and column where a piece has landed from 0 to the symbol of a player (1 or 2).
+    It changes the row and column where a piece
+    has landed from 0 to the symbol of a player (1 or 2).
     """
     board[row][col] = piece
     return row, col, piece
@@ -46,8 +51,10 @@ def print_board(board):
 def win(board, piece):
     """
     Here we assign the rules for winning the game.
-    If a player manages to set 4 pieces in a row vertically, horizontally or diagonally, they win.
-    If there are no winners and the board is full, the game ends in a draw.
+    If a player manages to set 4 pieces in a row
+    vertically, horizontally or diagonally, they win.
+    If there are no winners and the board is full, 
+    the game ends in a draw.
     """
     # Horizontal
     for col in range(4):
@@ -141,6 +148,5 @@ def play(game_type='pp'):
                 game_over = True
 
         turn += 1
-
     print(history)
     return history
