@@ -1,3 +1,3 @@
-# Tic Tac Toe
+# Neural Networks In Games
 
-Tic Tac Toe game implementation and network solver
+Neural network to solve simple board games!
