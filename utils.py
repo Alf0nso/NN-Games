@@ -1,4 +1,17 @@
+# Tic tac toe
+#
+# @Author: Afonso Rafael & Renata
+#
+# The utils file is just a python file with
+# functions that can be/are useful in the
+# whole project. Mainly functions related
+# with visualization and text editing/processing
+
 import os
+
+# Only the os lib is used mainly to clear
+# the screen of the terminal or to write files
+# in memory
 
 
 def clear():
@@ -15,14 +28,16 @@ def clear():
         _ = os.system('clear')
 
 
-def build_board(r, c):
+def build_board(r, c, f=" ", t="s"):
     """
     Any board that can be represented on a
     tabular manner can be created with this
-    function, it's being used here but
-    should be changed into a "utils" file.
+    function.
     """
-    return [[" "] * c for i in range(r)]
+    if t == "i":
+        return [[int(f)] * c
+                for i in range(r)]
+    return [[f] * c for i in range(r)]
 
 
 def print_board(board):
@@ -42,3 +57,15 @@ def print_board(board):
         print()
         print("+-" * len(row) + "+")
     return(0)
+
+
+def check_board(board, char=" ") -> bool:
+    """
+    check if certain character
+    is on the board!
+    """
+
+    for row in board:
+        if char in row:
+            return True
+    return False
