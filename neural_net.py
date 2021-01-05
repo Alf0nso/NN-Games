@@ -109,32 +109,10 @@ def train(mlp, inputs, targets, epochs, learning_rate):
 def mse(target, output):
     return np.average((target - output)**2)
 
+
 def sigmoid(x):
     return 1.0 / (1 + np.exp(-x))
 
 
 def sigmoid_derivative(x):
     return x * (1.0 - x)
-
-
-if __name__ == "__main__":
-
-    from random import random
-
-    mlp = MLP(2, [5], 1)
-
-    #  [weights, activations, derivatives]
-    inputs = np.array([[random() /
-                        2 for _ in range(2)]
-                       for _ in range(3000)])
-
-    target = np.array([[i[0] + i[1]] for i in inputs])
-
-    train(mlp, inputs, target, 50, 1)
-
-    input = np.array([0.3, 0.2])
-
-    output = foward_propagate(input, mlp[0], mlp[1], mlp[2])
-    print()
-    print("Prediction of {} + {} is {}".format(
-        input[0], input[1], output[0]))
