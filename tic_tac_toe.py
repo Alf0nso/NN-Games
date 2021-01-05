@@ -18,13 +18,20 @@ import random
 
 
 def insert_play(board, r, c, symbol, history=None):
+    """
+    Function to insert moves on the board.
+    """
     board[int(r) - 1][int(c) - 1] = symbol
     if history is not None:
         history.append([r, c, symbol])
-    return 0
+    pass
 
 
 def check_if_game_ended(board):
+    """
+    Check if the game as already finished
+    and return who won, or if it was a draw
+    """
     for line in board:
         if(line[0] == line[1] == line[2] == "X"):
             return [False, "X"]
@@ -65,25 +72,29 @@ def play(game_type="pp"):
     history = []
 
     # Start the game
-    ut.clear()
+    if game_type != "rr":
+        ut.clear()
 
     # The game loop
     while(check_if_game_ended(board)[0]):
-        print()
+        if game_type != "rr":
+            print()
 
         # The Player 1 will always play X
-        print("Player 2 (O)" if
-              len(history) % 2 != 0
-              else "Player 1 (X)")
+        if game_type != "rr":
+            print("Player 2 (O)" if
+                  len(history) % 2 != 0
+                  else "Player 1 (X)")
 
-        print()
+        if game_type != "rr":
+            print()
 
         # Get the input of row and column
         if game_type == "pp":
             row = int(input("row number: "))
             column = int(input("column number: "))
 
-        elif game_type == "r":
+        elif game_type == "rr":
             row = random.randint(1, 3)
             column = random.randint(1, 3)
 
@@ -91,29 +102,32 @@ def play(game_type="pp"):
             if(row <= 3 and row >= 1 and
                column <= 3 and column >= 1):
                 if(board[row - 1][column - 1] != " "):
-                    print("Cell already occupied")
+                    if game_type != "rr":
+                        print("Cell already occupied")
                 else:
                     break
             else:
-                print("Cell position doesn't" +
-                      "exist, the board is 3 by 3!")
+                if game_type != "rr":
+                    print("Cell position doesn't" +
+                          "exist, the board is 3 by 3!")
 
             if game_type == "pp":
                 row = int(input("row number: "))
                 column = int(input("column number: "))
 
-            elif game_type == "r":
+            elif game_type == "rr":
                 row = random.randint(1, 3)
                 column = random.randint(1, 3)
 
         # Insert the play on the board
-        #
         insert_play(board, row, column, "O" if
                     len(history) % 2 != 0
                     else "X", history)
 
-        # Print the board
-        ut.print_board(board)
+        # Print the board only if the game is not
+        # between two random players
+        if game_type != "rr":
+            ut.print_board(board)
 
     history.append(check_if_game_ended(board)[1])
     return history
