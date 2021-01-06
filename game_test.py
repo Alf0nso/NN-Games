@@ -37,30 +37,24 @@ class TicTacToeModel:
         y_train = y[:boundary]
         y_test = y[boundary:]
 
-        #self.model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=self.epochs, batch_size=self.batchSize)
+        self.model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=self.epochs, batch_size=self.batchSize)
 
     def predict(self, data, index):
         return self.model.predict(np.array(data).reshape(-1, self.numberOfInputs))[0][index]
 
 if __name__ == "__main__":
 
-    #p = ut.nn_construct_inpt("tic_games", 3, 3)
+    p = ut.nn_construct_inpt("tic_games", 3, 3)
 
-    #targets = []
+    targets = []
 
-    #for target in p[1]:
+    for target in p[1]:
         #x = [0, 0, 0]
         #x[int(target)] = 1.0
         #targets.append(x)
 
-    #targets = np.array(targets)
-    #inputs = np.array(p[0])
-
-    #ticTacToeModel = TicTacToeModel(9, 3, 100, 12)
-    #ticTacToeModel.train(inputs, targets)
-
-    from numpy import genfromtxt
-    dataset = genfromtxt('tic-tac-toe_csv.csv', delimiter=',')
+    targets = np.array(targets)
+    inputs = np.array(p[0])
 
     ticTacToeModel = TicTacToeModel(9, 3, 100, 12)
-    ticTacToeModel.train(dataset)
+    ticTacToeModel.train(inputs, targets)
