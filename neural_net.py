@@ -101,6 +101,8 @@ def train(mlp, inputs, targets, epochs, learning_rate):
 
             sum_error += mse(_target, output)
 
+        print("Target: {}, Output: {}"
+              .format(_target, output))
         print("Error: {} at epoch {}"
               .format(sum_error / len(inputs), i))
     pass
@@ -116,3 +118,7 @@ def sigmoid(x):
 
 def sigmoid_derivative(x):
     return x * (1.0 - x)
+
+def softmax(x):
+    expX = np.exp(x)
+    return expX / expX.sum()

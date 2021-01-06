@@ -8,6 +8,8 @@
 # with visualization and text editing/processing
 
 import os
+import numpy as np
+from itertools import chain
 
 # Only the os lib is used mainly to clear
 # the screen of the terminal or to write files
@@ -69,3 +71,39 @@ def check_board(board, char=" ") -> bool:
         if char in row:
             return True
     return False
+
+
+def nn_construct_inpt(file, r, c):
+    games = open(file, "rt")
+
+    targets = []
+    inputs = []
+    for line in games:
+        line = line[1:-2].replace(
+            "'", ""
+        ).replace(
+            "X", "0"
+        ).replace(
+            "O", "1"
+        ).replace("D", "2").split(", ")
+
+        games = []
+        target = []
+        place_holder = []
+        for i in range(0, len(line[:-1]), 3):
+            if len(place_holder) == 0:
+                board = np.zeros((r, c), np.int8)
+            else:
+                board = np.array(place_holder[-1], np.int8)
+
+            board[int(line[i])-1][int(line[i+1])-1] = int(line[i+2])
+
+            games.append(np.reshape(board, -1))
+            place_holder.append(board)
+            target.append(line[-1])
+
+        inputs.append(games)
+        targets.append(target)
+
+    return [list(chain(*inputs)),
+            list(chain(*targets))]

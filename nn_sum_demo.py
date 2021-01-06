@@ -15,6 +15,9 @@ inputs = np.array([[random() /
                    for _ in range(3000)])
 
 target = np.array([[i[0] + i[1]] for i in inputs])
+print(target)
+print(inputs)
+input()
 
 nn.train(mlp, inputs, target, 50, 1)
 
