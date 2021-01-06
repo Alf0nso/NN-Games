@@ -36,7 +36,7 @@ def MLP(num_inputs=3, hidden_layers=[3, 5], num_outputs=2):
     return [weights, activations, derivatives]
 
 
-def foward_propagate(inputs, weights, activations,
+def forward_propagate(inputs, weights, activations,
                      derivatives):
 
     _activations = inputs
@@ -90,7 +90,7 @@ def train(mlp, inputs, targets, epochs, learning_rate):
         sum_error = 0
         for _input, _target in zip(inputs, targets):
 
-            output = foward_propagate(_input, mlp[0],
+            output = forward_propagate(_input, mlp[0],
                                       mlp[1], mlp[2])
 
             error = _target - output
