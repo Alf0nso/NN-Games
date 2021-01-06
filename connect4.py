@@ -1,14 +1,17 @@
+# Connect 4
+#
+# @Author: Afonso & Renata
+#
+# Connect 4 game on python, implementation used
+# to learn about neural networks. It uses generic
+# functions built on the 'utils.py' file to generate
+# the board, clear the terminal and print characters
+# to the screen. The game can be played by two human
+# players on the same computer.
+
 import numpy as np
+import utils as ut
 import random
-
-
-def create_board(row, col):
-    """
-    The board is just a 6x7 matrix of zeros.
-    After each play, the zero turns into a 1 (Player 1) or a 2 (Player 2).
-    """
-    board = np.zeros((row, col))
-    return board
 
 
 def valid_move(board, col):
@@ -39,13 +42,6 @@ def drop_piece(board, row, col, piece):
     """
     board[row][col] = piece
     return row, col, piece
-
-
-def print_board(board):
-    """
-    For the game to flow in the upward direction, the board need to be flipped.
-    """
-    print(np.flip(board, 0))
 
 
 def win(board, piece):
@@ -85,19 +81,20 @@ def play(game_type='pp'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
-    This cycle will continue until one of the players wins or the game ends in a draw.
+    This cycle will continue until one of the players wins or the
+    game ends in a draw.
     A history of the moves and final score will be kept.
     """
 
-    board = create_board(6, 7)
+    board = ut.build_board(6, 7, f="0", t="i")
     history = []
     game_over = False
     board_full = False
     turn = 0
 
-
     while not game_over or board_full:
-        if 0 not in board:
+
+        if not ut.check_board(board, 0):
             board_full = True
             print('DRAW!')
             history.append('D')
@@ -105,10 +102,12 @@ def play(game_type='pp'):
         if turn % 2 == 0:
             # Player 1 plays first and always pair turns
             if game_type == 'pp':
-                player1_move = int(input('Player 1 please choose a number (0,6): '))
+                player1_move = int(input('Player 1 please' +
+                                         'choose a number (0,6): '))
             if game_type == 'r':
-                player1_move = random.randint(0,6)
-            #if game_type == 'pp_r':
+                player1_move = random.randint(0, 6)
+
+            # if game_type == 'pp_r':
             #   player1_move = NN has to make a prediction
             # if game_type == 'r_nn':
             #   player1_move = random.randint(0, 6)
@@ -118,7 +117,7 @@ def play(game_type='pp'):
                 drop_piece(board, row, player1_move, 1)
                 history.append([row, player1_move, 1])
 
-                print_board(board)
+                ut.print_board(np.flip(board, 0))
 
                 if win(board, 1):
                     print('PLAYER 1 WINS!')
@@ -127,7 +126,8 @@ def play(game_type='pp'):
         else:
             # Player 2 plays second and always odd turns
             if game_type == 'pp':
-                player2_move = int(input('Player 2 please choose a number (0,6): '))
+                player2_move = int(input('Player 2 please' +
+                                         'choose a number (0,6): '))
             if game_type == 'r':
                 player2_move = random.randint(0, 6)
             # if game_type == 'nn_r':
@@ -140,7 +140,7 @@ def play(game_type='pp'):
                 drop_piece(board, row, player2_move, 2)
                 history.append([row, player2_move, 2])
 
-            print_board(board)
+            ut.print_board(np.flip(board, 0))
 
             if win(board, 2):
                 print('PLAYER 2 WINS!')
