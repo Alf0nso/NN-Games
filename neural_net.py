@@ -37,7 +37,7 @@ def MLP(num_inputs=3, hidden_layers=[3, 5], num_outputs=2):
 
 
 def forward_propagate(inputs, weights, activations,
-                     derivatives):
+                      derivatives):
 
     _activations = inputs
     activations[0] = _activations
@@ -80,6 +80,7 @@ def gradient_descent(weights, derivatives, learning_rate):
         _weights = weights[i]
         _derivatives = derivatives[i]
         _weights += _derivatives * learning_rate
+        weights[i] = _weights
     pass
 
 
@@ -90,8 +91,9 @@ def train(mlp, inputs, targets, epochs, learning_rate):
         sum_error = 0
         for _input, _target in zip(inputs, targets):
 
+            # [weights, activations, derivatives]
             output = forward_propagate(_input, mlp[0],
-                                      mlp[1], mlp[2])
+                                       mlp[1], mlp[2])
 
             error = _target - output
 
@@ -118,6 +120,7 @@ def sigmoid(x):
 
 def sigmoid_derivative(x):
     return x * (1.0 - x)
+
 
 def softmax(x):
     expX = np.exp(x)
