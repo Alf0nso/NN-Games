@@ -5,5 +5,5 @@ import tic_tac_toe as tic
 import games_generator as gg
 
 # generate games
-gg.gen_games(tic, 30000, file_name='tic_games')
-# gg.gen_games(c4, 10, file_name='connect4_games')
+# gg.gen_games(tic, 30000, file_name='tic_games')
+gg.gen_games(c4, 30000, file_name='connect4_games')
