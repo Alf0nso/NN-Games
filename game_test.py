@@ -22,11 +22,11 @@ class TicTacToeModel:
         self.model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
     def train(self, input, output):
-        input = []
-        output = []
-        for data in dataset:
-            input.append(data[0])
-            output.append(data[1])
+        #input = []
+        #output = []
+        #for data in dataset:
+            #input.append(data[0])
+            #output.append(data[1])
 
         X = np.array(input).reshape((-1, self.numberOfInputs))
         y = output
@@ -49,12 +49,12 @@ if __name__ == "__main__":
     targets = []
 
     for target in p[1]:
-        #x = [0, 0, 0]
-        #x[int(target)] = 1.0
-        #targets.append(x)
+        x = [0, 0, 0]
+        x[int(target)] = 1.0
+        targets.append(x)
 
     targets = np.array(targets)
     inputs = np.array(p[0])
 
-    ticTacToeModel = TicTacToeModel(9, 3, 100, 12)
+    ticTacToeModel = TicTacToeModel(9, 3, 100, 32)
     ticTacToeModel.train(inputs, targets)
