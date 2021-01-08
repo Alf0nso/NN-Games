@@ -9,7 +9,9 @@
 # to the screen. The game can be played by two human
 # players on the same computer.
 
+import neural_net as nn
 import utils as ut
+import numpy as np
 import random
 
 # Board format should be something like:
@@ -57,6 +59,10 @@ def check_if_game_ended(board):
     return [False, "D"]
 
 
+def generate_pp(board):
+    pass
+
+
 def play(game_type="pp"):
     """
     The main cycle of the
@@ -70,10 +76,39 @@ def play(game_type="pp"):
     # well, to save the data of the game
     board = ut.build_board(3, 3)
     history = []
+    MLP = None
 
     # Start the game
     if game_type != "rr":
         ut.clear()
+
+    if game_type == "np":
+        print(50*"-")
+        print("Generating a Neural Network")
+
+        # Creating  a multy layer perceptron
+        MLP = nn.MLP(9, [40, 20, 10], 3)
+
+        # Getting the data from the
+        # tic_games file
+        feed_data = ut.nn_construct_inpt(
+            "tic_games", 3, 3)
+
+        targets = []
+
+        for target in feed_data[1]:
+            x = [0, 0, 0]
+            x[int(target)] = 1.0
+            targets.append(x)
+
+        inputs = np.array(feed_data[0])
+        targets = np.array(targets)
+
+        nn.train(MLP, inputs, targets, 40, 0.1)
+        print()
+        print(50*"-")
+        print("finished training!")
+        print(50*"-")
 
     # The game loop
     while(check_if_game_ended(board)[0]):
@@ -86,9 +121,6 @@ def play(game_type="pp"):
                   len(history) % 2 != 0
                   else "Player 1 (X)")
 
-        if game_type != "rr":
-            print()
-
         # Get the input of row and column
         if game_type == "pp":
             row = int(input("row number: "))
@@ -97,6 +129,8 @@ def play(game_type="pp"):
         elif game_type == "rr":
             row = random.randint(1, 3)
             column = random.randint(1, 3)
+
+        elif game_type == "np":
 
         while(True):
             if(row <= 3 and row >= 1 and
