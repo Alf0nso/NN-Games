@@ -77,7 +77,7 @@ def win(board, piece):
                 return True
 
 
-def play(game_type='pp'):
+def play(player1_mode='rr', player2_mode='rr'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
@@ -101,52 +101,43 @@ def play(game_type='pp'):
 
         if turn % 2 == 0:
             # Player 1 plays first and always pair turns
-            if game_type == 'pp':
+            if player1_mode == 'pp':
                 player1_move = int(input('Player 1 please' +
                                          'choose a number (0,6): '))
-            if game_type == 'r':
+            if player1_mode == 'rr':
                 player1_move = random.randint(0, 6)
-
-            # if game_type == 'pp_r':
-            #   player1_move = NN has to make a prediction
-            # if game_type == 'r_nn':
-            #   player1_move = random.randint(0, 6)
 
             if valid_move(board, player1_move):
                 row = available_rows(board, player1_move)
-                drop_piece(board, row, player1_move, 1)
-                history.append([row, player1_move, 1])
+                drop_piece(board, row, player1_move, 'R')
+                history.append([row, player1_move, 'R'])
 
                 ut.print_board(np.flip(board, 0))
 
-                if win(board, 1):
+                if win(board, 'R'):
                     print('PLAYER 1 WINS!')
-                    history.append(2)
+                    history.append('R')
                     game_over = True
         else:
             # Player 2 plays second and always odd turns
-            if game_type == 'pp':
+            if player2_mode == 'pp':
                 player2_move = int(input('Player 2 please' +
                                          'choose a number (0,6): '))
-            if game_type == 'r':
+            if player2_mode == 'rr':
                 player2_move = random.randint(0, 6)
-            # if game_type == 'nn_r':
-            #   player2_move = random.randint(0, 6)
-            # if game_type == 'r_nn':
-            #   NN has to make a prediction
 
             if valid_move(board, player2_move):
                 row = available_rows(board, player2_move)
-                drop_piece(board, row, player2_move, 2)
-                history.append([row, player2_move, 2])
+                drop_piece(board, row, player2_move, 'Y')
+                history.append([row, player2_move, 'Y'])
 
             ut.print_board(np.flip(board, 0))
 
-            if win(board, 2):
+            if win(board, 'Y'):
                 print('PLAYER 2 WINS!')
-                history.append(2)
+                history.append('Y')
                 game_over = True
 
         turn += 1
-    print(history)
+
     return history

@@ -122,6 +122,6 @@ def sigmoid_derivative(x):
     return x * (1.0 - x)
 
 
-def softmax(x):
-    expX = np.exp(x)
-    return expX / expX.sum()
+#def softmax(x):
+#    expX = np.exp(x)
+#    return expX / expX.sum()

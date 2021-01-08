@@ -12,7 +12,7 @@ def gen_games(game, n_games, path=None, file_name="games"):
         file_ = open(str(path) + file_name, "w")
 
     while(n_games > 0):
-        file_.write(str(list(chain(*game.play("rr")))))
+        file_.write(str(list(chain(*game.play()))))
         file_.write("\n")
         n_games -= 1
     return 0

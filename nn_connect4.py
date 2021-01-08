@@ -5,7 +5,7 @@ import utils as ut
 # target -> [X,O,D] []
 MLP = nn.MLP(9, [40, 20, 10], 3)
 
-p = ut.nn_construct_inpt(file = "tic_games", 3, 3)
+p = ut.nn_construct_inpt(file = "connect4_games", 3, 3)
 
 targets = []
 
