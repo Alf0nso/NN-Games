@@ -105,6 +105,7 @@ def train(mlp, inputs, targets, epochs, learning_rate):
 
         print("Target: {}, Output: {}"
               .format(_target, output))
+        print()
         print("Error: {} at epoch {}"
               .format(sum_error / len(inputs), i))
     pass

@@ -82,10 +82,10 @@ def nn_construct_inpt(file, r, c):
         line = line[1:-2].replace(
             "'", ""
         ).replace(
-            "X", "0"
+            "X", "1"
         ).replace(
-            "O", "1"
-        ).replace("D", "2").split(", ")
+            "O", "2"
+        ).replace("D", "3").split(", ")
 
         games = []
         target = []
@@ -94,9 +94,11 @@ def nn_construct_inpt(file, r, c):
             if len(place_holder) == 0:
                 board = np.zeros((r, c), np.int8)
             else:
-                board = np.array(place_holder[-1], np.int8)
+                board = np.array(
+                    place_holder[-1], np.int8)
 
-            board[int(line[i])-1][int(line[i+1])-1] = int(line[i+2])
+            board[int(line[i])-1][int(line[i+1])-1] = int(
+                line[i+2])
 
             games.append(np.reshape(board, -1))
             place_holder.append(board)

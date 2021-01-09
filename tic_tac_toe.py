@@ -59,8 +59,30 @@ def check_if_game_ended(board):
     return [False, "D"]
 
 
-def generate_pp(board):
-    pass
+def generate_pp(board, player):
+    """
+    Generates the possible next plays.
+    can actually be used for a regular player
+    but we are only making use of it when
+    a neural net is playing.
+    """
+    possible_p = []
+
+    for i, line in enumerate(board):
+        for j, el in enumerate(line):
+            if el == " ":
+                _board = board
+                _board[i][j] = player
+                possible_p.append(_board)
+
+    return possible_p
+
+
+def nn_prediction(MLP, Plays):
+    output = nn.forward_propagate(
+        input, MLP[0], MLP[1], MLP[2])
+
+    return output
 
 
 def play(game_type="pp"):
@@ -82,7 +104,8 @@ def play(game_type="pp"):
     if game_type != "rr":
         ut.clear()
 
-    if game_type == "np":
+    # Generate a neura network and train it!
+    if game_type == "np" or game_type == "pn":
         print(50*"-")
         print("Generating a Neural Network")
 
@@ -103,7 +126,8 @@ def play(game_type="pp"):
 
         inputs = np.array(feed_data[0])
         targets = np.array(targets)
-
+        print()
+        print("training")
         nn.train(MLP, inputs, targets, 40, 0.1)
         print()
         print(50*"-")
@@ -131,6 +155,12 @@ def play(game_type="pp"):
             column = random.randint(1, 3)
 
         elif game_type == "np":
+            if len(history) % 2 != 0:
+                p = generate_pp(board, "X")
+                print(p)
+                input()
+                break
+            pass
 
         while(True):
             if(row <= 3 and row >= 1 and
