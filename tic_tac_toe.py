@@ -169,14 +169,6 @@ def play(nn_file='Neural_Network', player1_mode="r", player2_mode="r"):
                 row, column = nn_prediction(MLP, board, "X")
                 print('value is', row, column)
 
-        #elif game_type == "np":
-        #    if len(history) % 2 != 0:
-        #        p = generate_pp(board, "X")
-        #        print(p)
-        #        input()
-        #        break
-        #    pass
-
         while(True):
             if(row <= 3 and row >= 1 and
                column <= 3 and column >= 1):
