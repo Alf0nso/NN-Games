@@ -14,7 +14,7 @@ def gen_games(game, n_games, path=None,
         file_ = open(str(path) + file_name, "w")
 
     while(n_games > 0):
-        file_.write(str(list(chain(*game.play("rr")))))
+        file_.write(str(list(chain(*game.play(player1_mode='r', player2_mode='r')))))
         file_.write("\n")
         n_games -= 1
     return 0

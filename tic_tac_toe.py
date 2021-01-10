@@ -67,25 +67,43 @@ def generate_pp(board, player):
     a neural net is playing.
     """
     possible_p = []
+    position = []
 
     for i, line in enumerate(board):
-        for j, el in enumerate(line):
-            if el == " ":
-                _board = board
+        for j, cell in enumerate(line):
+            if cell == " ":
+                _board = board.copy()
                 _board[i][j] = player
+                print(_board)
                 possible_p.append(_board)
+                position.append([i, j])
 
-    return possible_p
-
-
-def nn_prediction(MLP, Plays):
-    output = nn.forward_propagate(
-        input, MLP[0], MLP[1], MLP[2])
-
-    return output
+    return possible_p, position
 
 
-def play(game_type="pp"):
+def nn_prediction(MLP, board, player):
+    stats_player1 = []
+    stats_player2 = []
+
+    available_plays, positions = generate_pp(board, player)
+
+    for play, position in zip(available_plays, positions):
+        output = nn.forward_propagate(play.reshape(-1), MLP[0], MLP[1], MLP[2])
+        stats_player1.append(output[0])
+        stats_player2.append(output[1])
+
+    if player == "X":
+        best_move = stats_player1.index(max(stats_player1))
+        row, column = positions[best_move]
+
+    else:
+        best_move = stats_player2.index(max(stats_player2))
+        row, column = positions[best_move]
+
+    return row, column
+
+
+def play(player1_mode="r", player2_mode="r"):
     """
     The main cycle of the
     tic_tac_toe game, here all
@@ -98,90 +116,93 @@ def play(game_type="pp"):
     # well, to save the data of the game
     board = ut.build_board(3, 3)
     history = []
-    MLP = None
+    MLP = np.load('Neural_Network', allow_pickle=True)
 
     # Start the game
-    if game_type != "rr":
+    if (player1_mode == "p" or player2_mode == "p"):
         ut.clear()
-
-    # Generate a neura network and train it!
-    if game_type == "np" or game_type == "pn":
-        print(50*"-")
-        print("Generating a Neural Network")
-
-        # Creating  a multy layer perceptron
-        MLP = nn.MLP(9, [40, 20, 10], 3)
-
-        # Getting the data from the
-        # tic_games file
-        feed_data = ut.nn_construct_inpt(
-            "tic_games", 3, 3)
-
-        targets = []
-
-        for target in feed_data[1]:
-            x = [0, 0, 0]
-            x[int(target)] = 1.0
-            targets.append(x)
-
-        inputs = np.array(feed_data[0])
-        targets = np.array(targets)
-        print()
-        print("training")
-        nn.train(MLP, inputs, targets, 40, 0.1)
-        print()
-        print(50*"-")
-        print("finished training!")
-        print(50*"-")
 
     # The game loop
     while(check_if_game_ended(board)[0]):
-        if game_type != "rr":
+        if (player1_mode == "p" or player2_mode == "p"):
             print()
 
         # The Player 1 will always play X
-        if game_type != "rr":
+        if (player1_mode == "p" or player2_mode == "p"):
             print("Player 2 (O)" if
                   len(history) % 2 != 0
                   else "Player 1 (X)")
 
         # Get the input of row and column
-        if game_type == "pp":
-            row = int(input("row number: "))
-            column = int(input("column number: "))
+        if len(history) % 2 != 0:
+            if player2_mode == "p":
+                row = int(input("row number: "))
+                column = int(input("column number: "))
 
-        elif game_type == "rr":
-            row = random.randint(1, 3)
-            column = random.randint(1, 3)
+            elif player2_mode == "r":
+                row = random.randint(1, 3)
+                column = random.randint(1, 3)
 
-        elif game_type == "np":
-            if len(history) % 2 != 0:
-                p = generate_pp(board, "X")
-                print(p)
-                input()
-                break
-            pass
+            elif player2_mode == "nn":
+                row, column = nn_prediction(MLP, board, "O")
+
+        else:
+            if player1_mode == "p":
+                row = int(input("row number: "))
+                column = int(input("column number: "))
+
+            elif player1_mode == "r":
+                row = random.randint(1, 3)
+                column = random.randint(1, 3)
+
+            elif player1_mode == "nn":
+                row, column = nn_prediction(MLP, board, "X")
+                print('value is', row, column)
+
+        #elif game_type == "np":
+        #    if len(history) % 2 != 0:
+        #        p = generate_pp(board, "X")
+        #        print(p)
+        #        input()
+        #        break
+        #    pass
 
         while(True):
             if(row <= 3 and row >= 1 and
                column <= 3 and column >= 1):
                 if(board[row - 1][column - 1] != " "):
-                    if game_type != "rr":
+                    if (player1_mode == "p" or player2_mode == "p"):
                         print("Cell already occupied")
                 else:
                     break
             else:
-                if game_type != "rr":
-                    print("Cell position doesn't" +
+                if (player1_mode == "p" or player2_mode == "p"):
+                    print("Cell position does not" +
                           "exist, the board is 3 by 3!")
 
-            if game_type == "pp":
-                row = int(input("row number: "))
-                column = int(input("column number: "))
+            if len(history) % 2 != 0:
+                if player2_mode == "p":
+                    row = int(input("row number: "))
+                    column = int(input("column number: "))
 
-            elif game_type == "rr":
-                row = random.randint(1, 3)
-                column = random.randint(1, 3)
+                elif player2_mode == "r":
+                    row = random.randint(1, 3)
+                    column = random.randint(1, 3)
+
+                elif player2_mode == "nn":
+                    row, column = nn_prediction(MLP, board, "O")
+
+            else:
+                if player1_mode == "p":
+                    row = int(input("row number: "))
+                    column = int(input("column number: "))
+
+                elif player1_mode == "r":
+                    row = random.randint(1, 3)
+                    column = random.randint(1, 3)
+
+                elif player1_mode == "nn":
+                    row, column = nn_prediction(MLP, board, "X")
 
         # Insert the play on the board
         insert_play(board, row, column, "O" if
@@ -190,8 +211,10 @@ def play(game_type="pp"):
 
         # Print the board only if the game is not
         # between two random players
-        if game_type != "rr":
+        if (player1_mode == "p" or player2_mode == "p"):
             ut.print_board(board)
 
     history.append(check_if_game_ended(board)[1])
     return history
+
+play('nn','p')

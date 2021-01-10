@@ -77,7 +77,7 @@ def win(board, piece):
                 return True
 
 
-def play(player1_mode='rr', player2_mode='rr'):
+def play(player1_mode='r', player2_mode='r'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
@@ -101,10 +101,10 @@ def play(player1_mode='rr', player2_mode='rr'):
 
         if turn % 2 == 0:
             # Player 1 plays first and always pair turns
-            if player1_mode == 'pp':
+            if player1_mode == 'p':
                 player1_move = int(input('Player 1 please' +
                                          'choose a number (0,6): '))
-            if player1_mode == 'rr':
+            if player1_mode == 'r':
                 player1_move = random.randint(0, 6)
 
             if valid_move(board, player1_move):
@@ -120,10 +120,10 @@ def play(player1_mode='rr', player2_mode='rr'):
                     game_over = True
         else:
             # Player 2 plays second and always odd turns
-            if player2_mode == 'pp':
+            if player2_mode == 'p':
                 player2_move = int(input('Player 2 please' +
                                          'choose a number (0,6): '))
-            if player2_mode == 'rr':
+            if player2_mode == 'r':
                 player2_move = random.randint(0, 6)
 
             if valid_move(board, player2_move):
