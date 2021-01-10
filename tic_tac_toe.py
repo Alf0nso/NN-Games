@@ -69,12 +69,18 @@ def generate_pp(board, player):
     possible_p = []
     position = []
 
+    if player == 'X':
+        enc_play = 1
+    else:
+        enc_play = 2
+
     for i, line in enumerate(board):
         for j, cell in enumerate(line):
             if cell == " ":
                 _board = board.copy()
-                _board[i][j] = player
+                _board[i][j] = enc_play
                 print(_board)
+                print(position)
                 possible_p.append(_board)
                 position.append([i, j])
 
@@ -103,7 +109,11 @@ def nn_prediction(MLP, board, player):
     return row, column
 
 
-def play(player1_mode="r", player2_mode="r"):
+def simulate_games(n_games, player1_mode = "r", player2_mode = "r"):
+    pass
+
+
+def play(nn_file='Neural_Network', player1_mode="r", player2_mode="r"):
     """
     The main cycle of the
     tic_tac_toe game, here all
@@ -116,7 +126,7 @@ def play(player1_mode="r", player2_mode="r"):
     # well, to save the data of the game
     board = ut.build_board(3, 3)
     history = []
-    MLP = np.load('Neural_Network', allow_pickle=True)
+    MLP = np.load(nn_file, allow_pickle=True)
 
     # Start the game
     if (player1_mode == "p" or player2_mode == "p"):
