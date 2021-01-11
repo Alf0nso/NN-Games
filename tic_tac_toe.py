@@ -9,6 +9,7 @@
 # to the screen. The game can be played by two human
 # players on the same computer.
 
+from copy import deepcopy
 import neural_net as nn
 import utils as ut
 import numpy as np
@@ -74,13 +75,26 @@ def generate_pp(board, player):
     else:
         enc_play = 2
 
-    for i, line in enumerate(board):
+    board_temp = deepcopy(board)
+    for i, line in enumerate(board_temp):
         for j, cell in enumerate(line):
             if cell == " ":
-                _board = board.copy()
+                board_temp[i][j] = 0
+
+            if cell == "X":
+                board_temp[i][j] = 1
+
+            if cell == "O":
+                board_temp[i][j] = 2
+
+    for i, line in enumerate(board_temp):
+        for j, cell in enumerate(line):
+            if cell == 0:
+
+                # Deepcopy is used to avoid instanciating
+                # the array!
+                _board = deepcopy(board_temp)
                 _board[i][j] = enc_play
-                print(_board)
-                print(position)
                 possible_p.append(_board)
                 position.append([i, j])
 
@@ -94,26 +108,37 @@ def nn_prediction(MLP, board, player):
     available_plays, positions = generate_pp(board, player)
 
     for play, position in zip(available_plays, positions):
-        output = nn.forward_propagate(play.reshape(-1), MLP[0], MLP[1], MLP[2])
+        play = np.array(play)
+        output = nn.forward_propagate(play.reshape(-1),
+                                      MLP[0], MLP[1], MLP[2])
         stats_player1.append(output[0])
         stats_player2.append(output[1])
 
     if player == "X":
+        print()
+        print("stats")
+        print(stats_player1)
+        input()
         best_move = stats_player1.index(max(stats_player1))
+        print(best_move)
+        input()
         row, column = positions[best_move]
+        print(row)
+        print(column)
+        input()
 
     else:
         best_move = stats_player2.index(max(stats_player2))
         row, column = positions[best_move]
 
-    return row, column
+    return row+1, column+1
 
 
-def simulate_games(n_games, player1_mode = "r", player2_mode = "r"):
+def simulate_games(n_games, player1_mode="r", player2_mode="r"):
     pass
 
 
-def play(nn_file='Neural_Network', player1_mode="r", player2_mode="r"):
+def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network'):
     """
     The main cycle of the
     tic_tac_toe game, here all
@@ -218,5 +243,3 @@ def play(nn_file='Neural_Network', player1_mode="r", player2_mode="r"):
 
     history.append(check_if_game_ended(board)[1])
     return history
-
-play('nn','p')
