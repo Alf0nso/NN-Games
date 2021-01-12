@@ -180,7 +180,7 @@ def play(player1_mode='r', player2_mode='r'):
 
     while not (game_over or board_full):
 
-        if 0 not in board[1]:
+        if 0 not in board[5]:
             board_full = True
             print('DRAW!')
             history.append('D')
@@ -196,17 +196,30 @@ def play(player1_mode='r', player2_mode='r'):
             elif player1_mode == "nn":
                 player1_move = nn_prediction(MLP, board, "R")
 
-            if valid_move(board, player1_move):
-                row = available_rows(board, player1_move)
-                drop_piece(board, row, player1_move, 'R')
-                history.append([row, player1_move, 'R'])
+            while not valid_move(board, player1_move):
+                print("Invalid move! Try again!")
+                print()
 
-                ut.print_board(np.flip(board, 0))
+                if player1_mode == 'p':
+                    player1_move = int(input('Player 1 please' +
+                                             'choose a number (0,6): '))
+                elif player1_mode == 'r':
+                    player1_move = random.randint(0, 6)
 
-                if win(board, 'R'):
-                    print('PLAYER 1 WINS!')
-                    history.append('R')
-                    game_over = True
+                elif player1_mode == "nn":
+                    player1_move = nn_prediction(MLP, board, "R")
+
+            row = available_rows(board, player1_move)
+            drop_piece(board, row, player1_move, 'R')
+            history.append([row, player1_move, 'R'])
+
+            ut.print_board(np.flip(board, 0))
+
+            if win(board, 'R'):
+                print('PLAYER 1 WINS!')
+                history.append('R')
+                game_over = True
+
         else:
             # Player 2 plays second and always odd turns
             if player2_mode == 'p':
@@ -218,10 +231,22 @@ def play(player1_mode='r', player2_mode='r'):
             elif player1_mode == "nn":
                 player2_move = nn_prediction(MLP, board, "Y")
 
-            if valid_move(board, player2_move):
-                row = available_rows(board, player2_move)
-                drop_piece(board, row, player2_move, 'Y')
-                history.append([row, player2_move, 'Y'])
+            while not valid_move(board, player2_move):
+                print("Invalid move! Try again!")
+                print()
+
+                if player2_mode == 'p':
+                    player2_move = int(input('Player 2 please' +
+                                             'choose a number (0,6): '))
+                elif player2_mode == 'r':
+                    player2_move = random.randint(0, 6)
+
+                elif player1_mode == "nn":
+                    player2_move = nn_prediction(MLP, board, "Y")
+
+            row = available_rows(board, player2_move)
+            drop_piece(board, row, player2_move, 'Y')
+            history.append([row, player2_move, 'Y'])
 
             ut.print_board(np.flip(board, 0))
 
@@ -233,5 +258,3 @@ def play(player1_mode='r', player2_mode='r'):
         turn += 1
 
     return history
-
-play()

@@ -1,11 +1,14 @@
 import neural_net as nn
 import numpy as np
 import utils as ut
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 
 print()
 print(50*"-")
 print("Generating Neural Net")
-MLP = np.array(nn.MLP(9, [25,20], 3), dtype='object')
+MLP = np.array(nn.MLP(42, [25,20], 3), dtype='object')
 
 p = ut.nn_construct_input("connect4_games", 6, 7, 'R', 'Y')
 targets = []
@@ -43,7 +46,6 @@ for output in outputs:
     pred_labels = [0, 0, 0]
     pred_labels[output.index(max(output))] = 1.0
     pred_y.append(pred_labels)
-
 
 
 print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
