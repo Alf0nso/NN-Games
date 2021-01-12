@@ -7,7 +7,7 @@ print(50*"-")
 print("Generating Neural Net")
 MLP = np.array(nn.MLP(9, [25,20], 3), dtype='object')
 
-p = ut.nn_construct_input("connect4_games", 3, 3)
+p = ut.nn_construct_input("connect4_games", 6, 7, 'R', 'Y')
 targets = []
 
 for target in p[1]:

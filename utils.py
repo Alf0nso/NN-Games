@@ -73,7 +73,7 @@ def check_board(board, char=" ") -> bool:
     return False
 
 
-def nn_construct_input(file, r, c):
+def nn_construct_input(file, r, c, symbol1 = 'X', symbol2='Y'):
     games = open(file, "rt")
 
     targets = []
@@ -82,9 +82,9 @@ def nn_construct_input(file, r, c):
         line = line[1:-2].replace(
             "'", ""
         ).replace(
-            "X", "1"
+            symbol1, "1"
         ).replace(
-            "O", "2"
+            symbol2, "2"
         ).replace("D", "3").split(", ")
 
         games = []
@@ -97,8 +97,7 @@ def nn_construct_input(file, r, c):
                 board = np.array(
                     place_holder[-1], np.int8)
 
-            board[int(line[i])-1][int(line[i+1])-1] = int(
-                line[i+2])
+            board[int(line[i])-1][int(line[i+1])-1] = int(line[i+2])
 
             games.append(np.reshape(board, -1))
             place_holder.append(board)
