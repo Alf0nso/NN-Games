@@ -9,6 +9,15 @@
 # to the screen. The game can be played by two human
 # players on the same computer.
 
+from copy import deepcopy
+import neural_net as nn
+import utils as ut
+import numpy as np
+import random
+
+#
+#
+
 
 def valid_move(board, col):
     """
@@ -45,7 +54,7 @@ def win(board, piece):
     Here we assign the rules for winning the game.
     If a player manages to set 4 pieces in a row
     vertically, horizontally or diagonally, they win.
-    If there are no winners and the board is full, 
+    If there are no winners and the board is full,
     the game ends in a draw.
     """
     # Horizontal
@@ -105,7 +114,7 @@ def generate_pp(board, player):
             # Deepcopy is used to avoid instanciating
             # the array!
             _board = deepcopy(board_temp)
-            _board[i][j] = enc_play
+            _board[i][j] = enc_play ##############################
             possible_p.append(_board)
             position.append([i])
 
@@ -164,14 +173,14 @@ def play(player1_mode='r', player2_mode='r'):
 
     board = ut.build_board(6, 7, f="0", t="i")
     history = []
-    #MLP = np.load(nn_file, allow_pickle=True)
+    # MLP = np.load(nn_file, allow_pickle=True)
     game_over = False
     board_full = False
     turn = 0
 
     while not (game_over or board_full):
 
-        if np.asarray(board) != '0':
+        if 0 not in board[1]:
             board_full = True
             print('DRAW!')
             history.append('D')
