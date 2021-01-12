@@ -23,7 +23,7 @@ nn.train(mlp, inputs, target, 50, 1)
 
 input = np.array([0.3, 0.2])
 
-output = nn.forward_propagate(input, mlp[0], mlp[1], mlp[2])
+output = nn.forward_propagate(input, mlp[0], mlp[1])
 print()
 print("Prediction of {} + {} is {}".format(
     input[0], input[1], output[0]))

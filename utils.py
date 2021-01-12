@@ -73,7 +73,7 @@ def check_board(board, char=" ") -> bool:
     return False
 
 
-def nn_construct_inpt(file, r, c):
+def nn_construct_input(file, r, c):
     games = open(file, "rt")
 
     targets = []

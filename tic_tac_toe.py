@@ -110,7 +110,7 @@ def nn_prediction(MLP, board, player):
     for play, position in zip(available_plays, positions):
         play = np.array(play)
         output = nn.forward_propagate(play.reshape(-1),
-                                      MLP[0], MLP[1], MLP[2])
+                                      MLP[0], MLP[1])
         stats_player1.append(output[0])
         stats_player2.append(output[1])
 

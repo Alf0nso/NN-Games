@@ -10,7 +10,7 @@ print(50*"-")
 print("Generating Neural Net")
 MLP = np.array(nn.MLP(9, [25,20], 3), dtype='object')
 
-p = ut.nn_construct_inpt("tic_games", 3, 3)
+p = ut.nn_construct_input("tic_games", 3, 3)
 targets = []
 
 for target in p[1]:
@@ -35,7 +35,7 @@ nn.train(MLP, X_train, y_train, 25, 0.1)
 print(50*"-")
 print("Testing the Neural Network")
 
-outputs = nn.forward_propagate(X_test, MLP[0], MLP[1], MLP[2])
+outputs = nn.forward_propagate(X_test, MLP[0], MLP[1])
 
 print()
 print()
