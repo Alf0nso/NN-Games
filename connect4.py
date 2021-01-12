@@ -9,10 +9,6 @@
 # to the screen. The game can be played by two human
 # players on the same computer.
 
-import numpy as np
-import utils as ut
-import random
-
 
 def valid_move(board, col):
     """
@@ -77,6 +73,86 @@ def win(board, piece):
                 return True
 
 
+def generate_pp(board, player):
+    """
+    Generates the possible next plays.
+    can actually be used for a regular player
+    but we are only making use of it when
+    a neural net is playing.
+    """
+    possible_p = []
+    position = []
+
+    if player == 'R':
+        enc_play = 1
+    else:
+        enc_play = 2
+
+    board_temp = deepcopy(board)
+    for i, col in enumerate(board_temp):
+        row = available_rows(board_temp, col)
+        if row == '0':
+            board_temp[i][row] = 0
+        if row == 'R':
+            board_temp[i][row] = 1
+        if row == 'Y':
+            board_temp[i][row] = 2
+
+    for i, col in enumerate(board_temp):
+        row = available_rows(board_temp, col)
+        if row == 0:
+
+            # Deepcopy is used to avoid instanciating
+            # the array!
+            _board = deepcopy(board_temp)
+            _board[i][j] = enc_play
+            possible_p.append(_board)
+            position.append([i])
+
+    return possible_p, position
+
+
+def nn_prediction(MLP, board, player):
+    stats_player1 = []
+    stats_player2 = []
+
+    available_plays, positions = generate_pp(board, player)
+
+    for play, position in zip(available_plays, positions):
+        play = np.array(play)
+        output = nn.forward_propagate(play.reshape(-1),
+                                      MLP[0], MLP[1])
+        stats_player1.append(output[0])
+        stats_player2.append(output[1])
+
+    if player == 'R':
+        best_move = stats_player1.index(max(stats_player1))
+        column = positions[best_move]
+
+    else:
+        best_move = stats_player2.index(max(stats_player2))
+        column = positions[best_move]
+
+    return column
+
+
+def simulate_games(n_games, player1_mode='r', player2_mode='r'):
+    outcomes = []
+    while (n_games > 0):
+        history = play(player1_mode, player2_mode)
+        outcomes.append(history[-1])
+        n_games -= 1
+
+    player1_wins = np.sum(np.asarray(outcomes) == 'R')/np.sum(len(outcomes))*100
+    player2_wins = np.sum(np.asarray(outcomes) == 'Y')/np.sum(len(outcomes))*100
+    draw = np.sum(np.asarray(outcomes) == 'D')/np.sum(len(outcomes))*100
+
+    print('Player 1 Wins:', player1_wins, '%')
+    print('Player 2 Wins:', player2_wins, '%')
+    print('Draw:', draw, '%')
+    return
+
+
 def play(player1_mode='r', player2_mode='r'):
     """
     Actual game loop. Each player will be asked to drop their piece.
@@ -88,13 +164,14 @@ def play(player1_mode='r', player2_mode='r'):
 
     board = ut.build_board(6, 7, f="0", t="i")
     history = []
+    #MLP = np.load(nn_file, allow_pickle=True)
     game_over = False
     board_full = False
     turn = 0
 
-    while not game_over or board_full:
+    while not (game_over or board_full):
 
-        if not ut.check_board(board, 0):
+        if np.asarray(board) != '0':
             board_full = True
             print('DRAW!')
             history.append('D')
@@ -104,8 +181,11 @@ def play(player1_mode='r', player2_mode='r'):
             if player1_mode == 'p':
                 player1_move = int(input('Player 1 please' +
                                          'choose a number (0,6): '))
-            if player1_mode == 'r':
+            elif player1_mode == 'r':
                 player1_move = random.randint(0, 6)
+
+            elif player1_mode == "nn":
+                player1_move = nn_prediction(MLP, board, "R")
 
             if valid_move(board, player1_move):
                 row = available_rows(board, player1_move)
@@ -123,8 +203,11 @@ def play(player1_mode='r', player2_mode='r'):
             if player2_mode == 'p':
                 player2_move = int(input('Player 2 please' +
                                          'choose a number (0,6): '))
-            if player2_mode == 'r':
+            elif player2_mode == 'r':
                 player2_move = random.randint(0, 6)
+
+            elif player1_mode == "nn":
+                player2_move = nn_prediction(MLP, board, "Y")
 
             if valid_move(board, player2_move):
                 row = available_rows(board, player2_move)
@@ -141,3 +224,5 @@ def play(player1_mode='r', player2_mode='r'):
         turn += 1
 
     return history
+
+play()

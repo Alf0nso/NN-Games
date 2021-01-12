@@ -8,5 +8,4 @@ import games_generator as gg
 # gg.gen_games(tic, 50000, file_name='tic_games')
 # gg.gen_games(c4, 10000, file_name='connect4_games')
 
-# tic.play("np")
-tic.play("nn", "p")
+
