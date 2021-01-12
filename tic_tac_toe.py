@@ -115,17 +115,8 @@ def nn_prediction(MLP, board, player):
         stats_player2.append(output[1])
 
     if player == "X":
-        print()
-        print("stats")
-        print(stats_player1)
-        input()
         best_move = stats_player1.index(max(stats_player1))
-        print(best_move)
-        input()
         row, column = positions[best_move]
-        print(row)
-        print(column)
-        input()
 
     else:
         best_move = stats_player2.index(max(stats_player2))
@@ -135,10 +126,23 @@ def nn_prediction(MLP, board, player):
 
 
 def simulate_games(n_games, player1_mode="r", player2_mode="r"):
-    pass
+    outcomes = []
+    while (n_games > 0):
+        history = play(player1_mode, player2_mode)
+        outcomes.append(history[-1])
+        n_games -= 1
+
+    player1_wins = np.sum(np.asarray(outcomes) == 'X')/np.sum(len(outcomes))*100
+    player2_wins = np.sum(np.asarray(outcomes) == 'O')/np.sum(len(outcomes))*100
+    draw = np.sum(np.asarray(outcomes) == 'D')/np.sum(len(outcomes))*100
+
+    print('Player 1 Wins:', player1_wins, '%')
+    print('Player 2 Wins:', player2_wins, '%')
+    print('Draw:', draw, '%')
+    return
 
 
-def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network'):
+def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network_2'):
     """
     The main cycle of the
     tic_tac_toe game, here all
@@ -192,7 +196,6 @@ def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network'):
 
             elif player1_mode == "nn":
                 row, column = nn_prediction(MLP, board, "X")
-                print('value is', row, column)
 
         while(True):
             if(row <= 3 and row >= 1 and
@@ -243,3 +246,5 @@ def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network'):
 
     history.append(check_if_game_ended(board)[1])
     return history
+
+simulate_games(500, 'r','nn')
