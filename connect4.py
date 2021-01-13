@@ -99,24 +99,24 @@ def generate_pp(board, player):
 
     board_temp = deepcopy(board)
     for i, col in enumerate(board_temp):
-        row = available_rows(board_temp, col)
-        if row == '0':
-            board_temp[i][row] = 0
-        if row == 'R':
-            board_temp[i][row] = 1
-        if row == 'Y':
-            board_temp[i][row] = 2
+        for j, row in enumerate(col):
+            if row == 'R':
+                board_temp[i][j] = 1
+            if row == 'Y':
+                board_temp[i][j] = 2
 
-    for i, col in enumerate(board_temp):
-        row = available_rows(board_temp, col)
+    for i in range(len(board_temp)):
+        print(i)
+        row = available_rows(board_temp, i)
+        print(row)
         if row == 0:
 
             # Deepcopy is used to avoid instanciating
             # the array!
             _board = deepcopy(board_temp)
-            _board[i][j] = enc_play ##############################
+            _board[i][row] = enc_play ##############################
             possible_p.append(_board)
-            position.append([i])
+            position.append(i)
 
     return possible_p, position
 
@@ -129,10 +129,14 @@ def nn_prediction(MLP, board, player):
 
     for play, position in zip(available_plays, positions):
         play = np.array(play)
+        print(play)
+
         output = nn.forward_propagate(play.reshape(-1),
                                       MLP[0], MLP[1])
+
         stats_player1.append(output[0])
         stats_player2.append(output[1])
+        print(stats_player1)
 
     if player == 'R':
         best_move = stats_player1.index(max(stats_player1))
@@ -162,7 +166,7 @@ def simulate_games(n_games, player1_mode='r', player2_mode='r'):
     pass
 
 
-def play(player1_mode='r', player2_mode='r'):
+def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
     """
     Actual game loop. Each player will be asked to drop their piece.
     If their move is valid, the game proceeds to the other player.
@@ -173,7 +177,7 @@ def play(player1_mode='r', player2_mode='r'):
 
     board = ut.build_board(6, 7, f="0", t="i")
     history = []
-    # MLP = np.load(nn_file, allow_pickle=True)
+    MLP = np.load(nn_file, allow_pickle=True)
     game_over = False
     board_full = False
     turn = 0
@@ -258,3 +262,6 @@ def play(player1_mode='r', player2_mode='r'):
         turn += 1
 
     return history
+
+
+play('nn','p')

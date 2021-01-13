@@ -251,3 +251,6 @@ def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network_2'):
 
     history.append(check_if_game_ended(board)[1])
     return history
+
+
+#simulate_games(1000,'nn','nn')
