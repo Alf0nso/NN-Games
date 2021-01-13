@@ -51,6 +51,6 @@ for output in outputs:
 print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
 print('F1 Score for Testing Set: ', f1_score(y_test, np.array(pred_y), average='weighted'))
 
-file = open("Connect4", "wb")
+file = open("Connect4_2_attempt", "wb")
 np.save(file, MLP)
 file.close

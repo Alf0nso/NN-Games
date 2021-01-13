@@ -149,7 +149,7 @@ def nn_prediction(MLP, board, player):
 def simulate_games(n_games, player1_mode='r', player2_mode='r'):
     outcomes = []
     while (n_games > 0):
-        history = play(player1_mode, player2_mode)
+        history = play(player1_mode, player2_mode, nn_file="connect4_2_attempt")
         outcomes.append(history[-1])
         n_games -= 1
 
@@ -185,7 +185,7 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
             # Player 1 plays first and always pair turns
             if player1_mode == 'p':
                 player1_move = int(input('Player 1 please' +
-                                         'choose a number (0,6): '))
+                                         ' choose a number (0,6): '))
             elif player1_mode == 'r':
                 player1_move = random.randint(0, 6)
 
@@ -193,8 +193,9 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
                 player1_move = nn_prediction(MLP, board, "R")
 
             while not valid_move(board, player1_move):
-                print("Invalid move! Try again!")
-                print()
+                if "p" in player1_mode + player2_mode:
+                    print("Invalid move! Try again!")
+                    print()
 
                 if player1_mode == 'p':
                     player1_move = int(input('Player 1 please' +
@@ -202,17 +203,20 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
                 elif player1_mode == 'r':
                     player1_move = random.randint(0, 6)
 
-                elif player1_mode == "nn":
-                    player1_move = nn_prediction(MLP, board, "R")
+                # elif player1_mode == "nn":
+                #    player1_move = nn_prediction(MLP, board, "R")
 
             row = available_rows(board, player1_move)
             drop_piece(board, row, player1_move, 'R')
             history.append([row, player1_move, 'R'])
 
-            ut.print_board(np.flip(board, 0))
+            if "p" in player1_mode + player2_mode:
+                ut.print_board(np.flip(board, 0))
 
             if win(board, 'R'):
-                print('PLAYER 1 WINS!')
+                if "p" in player1_mode + player2_mode:
+                    print('PLAYER 1 WINS!')
+
                 history.append('R')
                 game_over = True
 
@@ -228,8 +232,9 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
                 player2_move = nn_prediction(MLP, board, "Y")
 
             while not valid_move(board, player2_move):
-                print("Invalid move! Try again!")
-                print()
+                if "p" in player1_mode + player2_mode:
+                    print("Invalid move! Try again!")
+                    print()
 
                 if player2_mode == 'p':
                     player2_move = int(input('Player 2 please' +
@@ -237,28 +242,32 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
                 elif player2_mode == 'r':
                     player2_move = random.randint(0, 6)
 
-                elif player2_mode == "nn":
-                    player2_move = nn_prediction(MLP, board, "Y")
+                # elif player2_mode == "nn":
+                #    player2_move = nn_prediction(MLP, board, "Y")
 
             row = available_rows(board, player2_move)
             drop_piece(board, row, player2_move, 'Y')
             history.append([row, player2_move, 'Y'])
 
-            ut.print_board(np.flip(board, 0))
+            if "p" in player1_mode + player2_mode:
+                ut.print_board(np.flip(board, 0))
 
             if win(board, 'Y'):
-                print('PLAYER 2 WINS!')
+                if "p" in player1_mode + player2_mode:
+                    print('PLAYER 2 WINS!')
                 history.append('Y')
                 game_over = True
 
         if 0 not in board[5] and not game_over:
             board_full = True
-            print('DRAW!')
+            if "p" in player1_mode + player2_mode:
+                print('DRAW!')
             history.append('D')
 
         turn += 1
 
     return history
 
-#simulate_games(1000,'r','r')
-play('nn','p')
+
+simulate_games(1000, 'nn', 'r')
+# play('nn', 'p')
