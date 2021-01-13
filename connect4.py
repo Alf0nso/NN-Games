@@ -97,7 +97,7 @@ def generate_pp(board, player):
     else:
         enc_play = 2
 
-    board_temp = np.array(deepcopy(board)).T
+    board_temp = deepcopy(board)
     for i, col in enumerate(board_temp):
         for j, row in enumerate(col):
             if row == 'R':
@@ -105,16 +105,17 @@ def generate_pp(board, player):
             if row == 'Y':
                 board_temp[i][j] = 2
 
-    board_temp = board_temp.astype('float64')
-    for i in range(len(board_temp)-1):
-        row = available_rows(board_temp.T, i)
+    for i in range(np.shape(board_temp)[1]):
+        if valid_move(board_temp, i):
+            row = available_rows(board_temp, i)
 
-        # Deepcopy is used to avoid instanciating
-        # the array!
-        _board = deepcopy(board_temp)
-        _board[i][row] = enc_play
-        possible_p.append(_board.T)
-        position.append(i)
+            # Deepcopy is used to avoid instanciating
+            # the array!
+            _board = deepcopy(board_temp)
+            _board[row][i] = enc_play
+
+            possible_p.append(_board)
+            position.append(i)
 
     return possible_p, position
 
@@ -124,18 +125,15 @@ def nn_prediction(MLP, board, player):
     stats_player2 = []
 
     available_plays, positions = generate_pp(board, player)
-    print(available_plays)
 
     for play, position in zip(available_plays, positions):
         play = np.array(play)
-        #print(play)
 
         output = nn.forward_propagate(play.reshape(-1),
                                       MLP[0], MLP[1])
 
         stats_player1.append(output[0])
         stats_player2.append(output[1])
-        print(stats_player1)
 
     if player == 'R':
         best_move = stats_player1.index(max(stats_player1))
@@ -226,7 +224,7 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
             elif player2_mode == 'r':
                 player2_move = random.randint(0, 6)
 
-            elif player1_mode == "nn":
+            elif player2_mode == "nn":
                 player2_move = nn_prediction(MLP, board, "Y")
 
             while not valid_move(board, player2_move):
@@ -239,7 +237,7 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
                 elif player2_mode == 'r':
                     player2_move = random.randint(0, 6)
 
-                elif player1_mode == "nn":
+                elif player2_mode == "nn":
                     player2_move = nn_prediction(MLP, board, "Y")
 
             row = available_rows(board, player2_move)
@@ -262,5 +260,5 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
 
     return history
 
-
-simulate_games(1000, 'r', 'r')
+#simulate_games(1000,'r','r')
+play('nn','p')
