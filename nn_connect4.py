@@ -8,7 +8,7 @@ from sklearn.metrics import f1_score
 print()
 print(50*"-")
 print("Generating Neural Net")
-MLP = np.array(nn.MLP(42, [25,20], 3), dtype='object')
+MLP = np.array(nn.MLP(42, [15, 10], 3), dtype='object')
 
 p = ut.nn_construct_input("connect4_games", 6, 7, 'R', 'Y')
 targets = []
@@ -51,6 +51,6 @@ for output in outputs:
 print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
 print('F1 Score for Testing Set: ', f1_score(y_test, np.array(pred_y), average='weighted'))
 
-#file = open("Neural_Network_C4", "wb")
-#np.save(file, MLP)
-#file.close
+file = open("Connect4", "wb")
+np.save(file, MLP)
+file.close

@@ -78,7 +78,6 @@ def nn_construct_input(file, r, c, symbol1='X', symbol2='Y', n=0):
 
     targets = []
     inputs = []
-    counter = 0
     for line in games:
         line = line[1:-2].replace(
             "'", ""
@@ -87,28 +86,24 @@ def nn_construct_input(file, r, c, symbol1='X', symbol2='Y', n=0):
         ).replace(
             symbol2, "2"
         ).replace("D", "3").split(", ")
-        print(len(line))
-        print(line)
 
         games = []
         target = []
         place_holder = []
+
         for i in range(0, len(line[:-1]), 3):
             if len(place_holder) == 0:
                 board = np.zeros((r, c), np.int8)
             else:
                 board = np.array(
                     place_holder[-1], np.int8)
-            print(counter)
-            print("{} {} {}"
-                  .format(line[i], line[i+1], line[i+2]))
-            board[int(line[i])-n][int(line[i+1])-n] = int(line[i+2])
+
+            board[int(line[i])-1][int(line[i+1])-1] = int(line[i+2])
 
             games.append(np.reshape(board, -1))
             place_holder.append(board)
             target.append(line[-1])
 
-        counter+=1
         inputs.append(games)
         targets.append(target)
 

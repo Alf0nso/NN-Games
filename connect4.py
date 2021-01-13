@@ -159,7 +159,7 @@ def simulate_games(n_games, player1_mode='r', player2_mode='r'):
     print('Player 1 Wins:', player1_wins, '%')
     print('Player 2 Wins:', player2_wins, '%')
     print('Draw:', draw, '%')
-    return
+    pass
 
 
 def play(player1_mode='r', player2_mode='r'):
@@ -179,11 +179,6 @@ def play(player1_mode='r', player2_mode='r'):
     turn = 0
 
     while not (game_over or board_full):
-
-        if 0 not in board[5]:
-            board_full = True
-            print('DRAW!')
-            history.append('D')
 
         if turn % 2 == 0:
             # Player 1 plays first and always pair turns
@@ -254,6 +249,11 @@ def play(player1_mode='r', player2_mode='r'):
                 print('PLAYER 2 WINS!')
                 history.append('Y')
                 game_over = True
+
+        if 0 not in board[5] and not game_over:
+            board_full = True
+            print('DRAW!')
+            history.append('D')
 
         turn += 1
 

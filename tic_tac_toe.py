@@ -132,14 +132,19 @@ def simulate_games(n_games, player1_mode="r", player2_mode="r"):
         outcomes.append(history[-1])
         n_games -= 1
 
-    player1_wins = np.sum(np.asarray(outcomes) == 'X')/np.sum(len(outcomes))*100
-    player2_wins = np.sum(np.asarray(outcomes) == 'O')/np.sum(len(outcomes))*100
-    draw = np.sum(np.asarray(outcomes) == 'D')/np.sum(len(outcomes))*100
+    player1_wins = np.sum(
+        np.asarray(outcomes) == 'X')/np.sum(
+            len(outcomes))*100
+    player2_wins = np.sum(
+        np.asarray(outcomes) == 'O')/np.sum(
+            len(outcomes))*100
+    draw = np.sum(np.asarray(outcomes) == 'D')/np.sum(
+        len(outcomes))*100
 
     print('Player 1 Wins:', player1_wins, '%')
     print('Player 2 Wins:', player2_wins, '%')
     print('Draw:', draw, '%')
-    return
+    pass
 
 
 def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network_2'):
