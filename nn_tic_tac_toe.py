@@ -52,6 +52,6 @@ for output in outputs:
 print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
 print('F1 Score for Testing Set: ', f1_score(y_test, np.array(pred_y), average='weighted'))
 
-file = open("Neural_Network_2", "wb")
-np.save(file, MLP)
-file.close
+#file = open("Neural_Network_2", "wb")
+#np.save(file, MLP)
+#file.close
