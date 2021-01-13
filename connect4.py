@@ -97,7 +97,7 @@ def generate_pp(board, player):
     else:
         enc_play = 2
 
-    board_temp = deepcopy(board)
+    board_temp = np.array(deepcopy(board)).T
     for i, col in enumerate(board_temp):
         for j, row in enumerate(col):
             if row == 'R':
@@ -105,14 +105,15 @@ def generate_pp(board, player):
             if row == 'Y':
                 board_temp[i][j] = 2
 
-    for i in range(len(board_temp)):
-        row = available_rows(board_temp, i)
+    board_temp = board_temp.astype('float64')
+    for i in range(len(board_temp)-1):
+        row = available_rows(board_temp.T, i)
 
         # Deepcopy is used to avoid instanciating
         # the array!
         _board = deepcopy(board_temp)
         _board[i][row] = enc_play
-        possible_p.append(_board)
+        possible_p.append(_board.T)
         position.append(i)
 
     return possible_p, position
@@ -262,4 +263,4 @@ def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
     return history
 
 
-play('nn','p')
+simulate_games(1000, 'r', 'r')
