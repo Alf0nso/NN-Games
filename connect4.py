@@ -106,17 +106,14 @@ def generate_pp(board, player):
                 board_temp[i][j] = 2
 
     for i in range(len(board_temp)):
-        print(i)
         row = available_rows(board_temp, i)
-        print(row)
-        if row == 0:
 
-            # Deepcopy is used to avoid instanciating
-            # the array!
-            _board = deepcopy(board_temp)
-            _board[i][row] = enc_play ##############################
-            possible_p.append(_board)
-            position.append(i)
+        # Deepcopy is used to avoid instanciating
+        # the array!
+        _board = deepcopy(board_temp)
+        _board[i][row] = enc_play
+        possible_p.append(_board)
+        position.append(i)
 
     return possible_p, position
 
@@ -126,10 +123,11 @@ def nn_prediction(MLP, board, player):
     stats_player2 = []
 
     available_plays, positions = generate_pp(board, player)
+    print(available_plays)
 
     for play, position in zip(available_plays, positions):
         play = np.array(play)
-        print(play)
+        #print(play)
 
         output = nn.forward_propagate(play.reshape(-1),
                                       MLP[0], MLP[1])
