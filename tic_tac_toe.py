@@ -7,7 +7,8 @@
 # functions built on the 'utils.py' file to generate
 # the board, clear the terminal and print characters
 # to the screen. The game can be played by two human
-# players on the same computer.
+# players on the same computer, by random players, or
+# by neural networks, or even a combination of all.
 
 from copy import deepcopy
 import neural_net as nn
@@ -15,9 +16,9 @@ import utils as ut
 import numpy as np
 import random
 
-# Board format should be something like:
-#
-# [["X","O"," "],[" "," ","O"],[" "," "," "]]
+# It makes use of the utils library, neural_net,
+# numpy and random. deepcopy is used for a list
+# copying need.
 
 
 def insert_play(board, r, c, symbol, history=None):
@@ -70,6 +71,8 @@ def generate_pp(board, player):
     possible_p = []
     position = []
 
+    # Encoding player one (X) into the number
+    # one, and encoding player two into 2
     if player == 'X':
         enc_play = 1
     else:
@@ -102,6 +105,12 @@ def generate_pp(board, player):
 
 
 def nn_prediction(MLP, board, player):
+    """
+    Function to compute the prediction of the neural
+    network. it will go over all the possibilites and
+    save the values, in the end it will only return
+    the row and column of the best move.
+    """
     stats_player1 = []
     stats_player2 = []
 
@@ -126,6 +135,13 @@ def nn_prediction(MLP, board, player):
 
 
 def simulate_games(n_games, player1_mode="r", player2_mode="r"):
+    """
+    Runs more than one game and saves the stats related to that
+    game. This can be used to measure how well our neural network
+    performs against other neural networks or random players.
+    (Or even players if you have the patience to play that many
+    games).
+    """
     outcomes = []
     while (n_games > 0):
         history = play(player1_mode, player2_mode)
@@ -251,6 +267,3 @@ def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network_2'):
 
     history.append(check_if_game_ended(board)[1])
     return history
-
-
-#simulate_games(1000,'nn','nn')
