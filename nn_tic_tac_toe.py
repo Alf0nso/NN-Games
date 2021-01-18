@@ -1,3 +1,11 @@
+# Training of Tic tac toe
+#
+# @Author: Afonso Rafael & Renata
+#
+# Train the neural network on
+# tic tac toe games and observe how it
+# performs!
+
 import neural_net as nn
 import numpy as np
 import utils as ut
@@ -5,10 +13,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 
+# libraries both for making the MLP and
+# for testing it.
+
 print()
 print(50*"-")
 print("Generating Neural Net")
-MLP = np.array(nn.MLP(9, [25,20], 3), dtype='object')
+MLP = np.array(nn.MLP(9, [25, 20], 3), dtype='object')
 
 p = ut.nn_construct_input("tic_games", 3, 3)
 targets = []
@@ -48,10 +59,11 @@ for output in outputs:
     pred_y.append(pred_labels)
 
 
+print('Accuracy for Testing Set: ',
+      accuracy_score(y_test, np.array(pred_y)))
+print('F1 Score for Testing Set: ',
+      f1_score(y_test, np.array(pred_y), average='weighted'))
 
-print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
-print('F1 Score for Testing Set: ', f1_score(y_test, np.array(pred_y), average='weighted'))
-
-#file = open("Neural_Network_2", "wb")
-#np.save(file, MLP)
-#file.close
+# file = open("Neural_Network_2", "wb")
+# np.save(file, MLP)
+# file.close
