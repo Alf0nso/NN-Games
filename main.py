@@ -7,3 +7,5 @@ import games_generator as gg
 # generate games
 # gg.gen_games(tic, 1000, file_name='tictic')
 # gg.gen_games(c4, 10000, file_name='connect4_games')
+
+tic.play("nn", "p")

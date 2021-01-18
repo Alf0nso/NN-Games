@@ -1,4 +1,4 @@
-# Tic tac toe
+# Training of Connect 4
 #
 # @Author: Afonso Rafael & Renata
 #
