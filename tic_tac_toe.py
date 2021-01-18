@@ -163,7 +163,8 @@ def simulate_games(n_games, player1_mode="r", player2_mode="r"):
     pass
 
 
-def play(player1_mode="r", player2_mode="r", nn_file='Neural_Network_2'):
+def play(player1_mode="r", player2_mode="r",
+         nn_file='MLP_Tic_Tac_Toe'):
     """
     The main cycle of the
     tic_tac_toe game, here all
