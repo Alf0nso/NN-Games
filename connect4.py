@@ -181,7 +181,8 @@ def simulate_games(n_games, player1_mode='r', player2_mode='r'):
     pass
 
 
-def play(player1_mode='r', player2_mode='r', nn_file='Connect4'):
+def play(player1_mode='r', player2_mode='r',
+         nn_file='MLP_Connect4'):
     """
     Actual game loop. Each player will be asked
     to drop their piece.
