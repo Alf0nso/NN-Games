@@ -1,9 +1,20 @@
+# Tic tac toe
+#
+# @Author: Afonso Rafael & Renata
+#
+# Train the neural network on
+# connect4 games and observe how it
+# performs!
+
 import neural_net as nn
 import numpy as np
 import utils as ut
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
+
+# libraries both for making the MLP and
+# for testing it.
 
 print()
 print(50*"-")
@@ -22,9 +33,7 @@ targets = np.array(targets)
 inputs = np.array(p[0])
 
 
-
 # Spliting the data for training and testing
-
 X_train, X_test, y_train, y_test = train_test_split(inputs, targets, test_size=0.2, random_state=42, stratify=targets)
 
 print()
@@ -48,9 +57,11 @@ for output in outputs:
     pred_y.append(pred_labels)
 
 
-print('Accuracy for Testing Set: ', accuracy_score(y_test, np.array(pred_y)))
-print('F1 Score for Testing Set: ', f1_score(y_test, np.array(pred_y), average='weighted'))
+print('Accuracy for Testing Set: ',
+      accuracy_score(y_test, np.array(pred_y)))
+print('F1 Score for Testing Set: ',
+      f1_score(y_test, np.array(pred_y), average='weighted'))
 
-file = open("Connect4_2_attempt", "wb")
-np.save(file, MLP)
-file.close
+# file = open("Connect4_2_attempt", "wb")
+# np.save(file, MLP)
+# file.close
