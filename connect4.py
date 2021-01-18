@@ -164,7 +164,7 @@ def simulate_games(n_games, player1_mode='r', player2_mode='r'):
     outcomes = []
     while (n_games > 0):
         history = play(player1_mode, player2_mode,
-                       nn_file="connect4_2_attempt")
+                       nn_file="MLP_Connect4")
         outcomes.append(history[-1])
         n_games -= 1
 
