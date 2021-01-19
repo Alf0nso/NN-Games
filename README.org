@@ -11,86 +11,25 @@
 #+OPTIONS: num:nil \n:t
 
 
-* The Games
+The purpose of the project is to better understand,
+how neural networks work from top to bottom. To do
+that we built a mini library in python to create
+and train a Multilayer Perceptron on a simple problem.
+The problem we choose was to approximate a reasonable
+player of a strategy board game.
 
-** TIC TAC TOE
+* Showcase
 
-*** The Game Board
+To see the final results to this moment, you can
+simply run the file /"main.py"/ where you will be
+presented with a prompt. This will allow you to 
+choose to play against the two neural networks 
+that where train, or to simulate games between
+both neural networks and random generated moves.
 
-The *Tic-tac-toe* board and game loop are of quite easy implementation.
-Everyone knows the board is just a simple 3 by 3 grid, where the players
-are able to put the symbols "X" and "O", that help distinguish /player/
-/1/ from /player 2/.
-The board will be presented as lists within lists, the reason for this 
-being that is easier to change and alter lists compared to tuples. I Also 
-built a function that is able to generate any kind of grid board of any 
-size.
-
-As you can see in the following piece of code, we are able to build
-and present in ASCII a *Tic-tac-toe* game board.
-
-#+begin_src python :session :results output :exports both
-import tic_tac_toe as tic
-
-board = tic.build_board(3,3)
-tic.print_board(board)
+#+begin_src python :results output :exports both
+py main.py
 #+end_src
 
-#+RESULTS:
-: +-+-+-+
-: | | | |
-: +-+-+-+
-: | | | |
-: +-+-+-+
-: | | | |
-: +-+-+-+
+* Play around
 
-We can also insert any symbol we want in the grid using
-the appropriate function.
-
-#+begin_src python :session :results output :exports both
-  tic.insert_play(board, 0, 0, "X")
-  tic.print_board(board)
-#+end_src
-
-#+RESULTS:
-: +-+-+-+
-: |X| | |
-: +-+-+-+
-: | | | |
-: +-+-+-+
-: | | | |
-: +-+-+-+
-
-And like I mentioned, it is possible to build any kind
-of squared board, even a chess one!
-
-#+begin_src python :session :results output :exports both
-  chess_board = tic.build_board(8,8)
-  tic.print_board(chess_board)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-| | | | | | | | |
-+-+-+-+-+-+-+-+-+
-#+end_example
-
-
-
-*** The Rules Of The Game
