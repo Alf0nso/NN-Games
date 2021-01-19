@@ -24,7 +24,7 @@ player of a strategy board game.
 * Showcase
 
 To see the final results to this moment, you can
-simply run the file /"main.py"/ where you will be
+simply run the file "main.py" where you will be
 presented with a prompt. This will allow you to 
 choose to play against the two neural networks 
 that where train, or to simulate games between
@@ -43,6 +43,7 @@ that can be imported and used whenever.
 
 Playing each game is easy, and each one comes with
 options related to the types of players...
+
 #+begin_src python :results output :exports both
   import connect4 as c4
   import tic_tac_toe as tic
@@ -54,3 +55,32 @@ options related to the types of players...
   c4.play("nn", "p")
 #+end_src
 
+There is also the possibility of simulating many games
+against random opponents to test how well our MLP is
+doing in the long run.
+
+#+begin_src python :results output :exports both
+  import connect4 as c4
+  import tic_tac_toe as tic
+
+  # Simulating games for Tic Tac Toe
+  print("Tic Tac Toe")
+  tic.simulate_games(1000, "nn", "r")
+
+  print()
+
+  # Simulating games for Connect Four
+  print("Connect Four")
+  c4.simulate_games(1000, "nn", "r")
+#+end_src
+
+#+RESULTS:
+: Tic Tac Toe
+: Player 1 Wins: 73.5 %
+: Player 2 Wins: 14.099999999999998 %
+: Draw: 12.4 %
+: 
+: Connect Four
+: Player 1 Wins: 69.6 %
+: Player 2 Wins: 30.2 %
+: Draw: 0.2 %
