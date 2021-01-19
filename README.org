@@ -2,8 +2,11 @@
 #+TITLE: Neural Networks To Solve Simple Games
 #+AUTHOR: Afonso Rafael
 #+EMAIL: afonsorafael@sapo.pt
-#+INFOJS_OPT: view:showall toc:t ltoc:t mouse:underline path:http://orgmode.org/org-info.js
-#+OPTIONS: H:2 num:nil @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t
+#+INFOJS_OPT: view:showall toc:t ltoc:t 
+#+INFOJS_OPT: mouse:underline
+#+INFOJS_OPT: path:http://orgmode.org/org-info.js
+#+OPTIONS: H:2 num:nil @:t ::t |:t ^:{} _:{} *:t 
+#+OPTIONS: TeX:t LaTeX:t
 #+HTML_HEAD_EXTRA: <meta charset="utf-8">
 #+EXPORT_SELECT_TAGS: export
 #+EXPORT_EXCLUDE_TAGS: noexport
@@ -32,4 +35,22 @@ py main.py
 #+end_src
 
 * Play around
+
+You can also play around with the code we write by
+simply using a python prompt or writing on a new python
+file. Everything we wrote here are simply functions
+that can be imported and used whenever.
+
+Playing each game is easy, and each one comes with
+options related to the types of players...
+#+begin_src python :results output :exports both
+  import connect4 as c4
+  import tic_tac_toe as tic
+
+  # To play Tic Tac Toe against the MLP...
+  tic.play("nn", "p")
+
+  # To play Connect Four against the MLP...
+  c4.play("nn", "p")
+#+end_src
 
