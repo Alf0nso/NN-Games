@@ -84,3 +84,8 @@ doing in the long run.
 : Player 1 Wins: 69.6 %
 : Player 2 Wins: 30.2 %
 : Draw: 0.2 %
+
+There are many more functions to generate, train and use
+the MLP's, all of those can be found on the neural_net.py
+file.
+
