@@ -1,2 +1,6 @@
+# Ignore the Ignore file
+# (Irony)
+.gitignore
+
 # python cache
 *.pyc
