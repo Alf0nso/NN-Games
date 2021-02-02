@@ -62,6 +62,6 @@ print('Accuracy for Testing Set: ',
 print('F1 Score for Testing Set: ',
       f1_score(y_test, np.array(pred_y), average='weighted'))
 
-# file = open("Connect4_2_attempt", "wb")
-# np.save(file, MLP)
-# file.close
+#file = open("Connect4_2_attempt", "wb")
+#np.save(file, MLP)
+#file.close
