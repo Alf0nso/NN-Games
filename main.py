@@ -9,8 +9,8 @@
 # until now.
 
 import utils as ut
-import connect4 as c4
-import tic_tac_toe as tic
+import Games.connect4 as c4
+import Games.tic_tac_toe as tic
 
 # Libraries used are the libraries
 # that where developed by us.
