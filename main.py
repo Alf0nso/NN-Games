@@ -8,9 +8,9 @@
 # literally just a showcase the work done
 # until now.
 
-import utils as ut
-import Games.connect4 as c4
-import Games.tic_tac_toe as tic
+from NN import utils as ut
+from Games import connect4 as c4
+from Games import tic_tac_toe as tic
 
 # Libraries used are the libraries
 # that where developed by us.
@@ -22,9 +22,9 @@ print(" " + 40*"-")
 print("    Neural Networks On Strategy Games!")
 print(" " + 40*"-")
 print("\n\n")
-print("1. To play Tic Tac Toe (TTT)")
-print("2. To play Connect Four (C4)")
-print("3. To simulate games (s)")
+print("1. To play Tic Tac Toe")
+print("2. To play Connect Four")
+print("3. To simulate games")
 print()
 print("Use \'clear\' to clean the terminal")
 print("To print help press (h)")
@@ -37,13 +37,13 @@ while(loop):
     if command == "q":
         loop = False
 
-    elif command == "TTT":
-        tic.play("nn", "p")
+    elif command == "1":
+        tic.play("nn", "p", nn_file="Trained_NN/MLP_Tic_Tac_Toe")
 
-    elif command == "C4":
-        c4.play("nn", "p")
+    elif command == "2":
+        c4.play("nn", "p", nn_file="Trained_NN/MLP_Connect4")
 
-    elif command == "s":
+    elif command == "3":
         ut.clear()
         print("Simulating Games...")
         print()
@@ -52,7 +52,9 @@ while(loop):
         print()
         print("This will take a couple of seconds...")
         print()
-        tic.simulate_games(1000, "nn", "r")
+        tic.simulate_games(1000, player1_mode="nn",
+                           player2_mode="r",
+                           nn_file="Trained_NN/MLP_Tic_Tac_Toe")
         print()
         input("[Press Enter to continue]")
         print()
@@ -61,7 +63,9 @@ while(loop):
         print()
         print("This will take a couple of seconds...")
         print()
-        c4.simulate_games(1000, "nn", "r")
+        c4.simulate_games(1000, player1_mode="nn",
+                          player2_mode="r",
+                          nn_file="Trained_NN/MLP_Connect4")
 
     elif command == "h":
         print()

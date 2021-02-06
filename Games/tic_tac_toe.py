@@ -11,8 +11,8 @@
 # by neural networks, or even a combination of all.
 
 from copy import deepcopy
-import neural_net as nn
-import utils as ut
+from NN import neural_net as nn
+from NN import utils as ut
 import numpy as np
 import random
 
@@ -134,7 +134,7 @@ def nn_prediction(MLP, board, player):
     return row+1, column+1
 
 
-def simulate_games(n_games, player1_mode="r", player2_mode="r"):
+def simulate_games(n_games, nn_file, player1_mode="r", player2_mode="r"):
     """
     Runs more than one game and saves the stats related to that
     game. This can be used to measure how well our neural network
@@ -144,7 +144,10 @@ def simulate_games(n_games, player1_mode="r", player2_mode="r"):
     """
     outcomes = []
     while (n_games > 0):
-        history = play(player1_mode, player2_mode)
+        if nn_file != None:
+            history = play(player1_mode, player2_mode, nn_file=nn_file)
+        else:
+            history = play(player1_mode, player2_mode)
         outcomes.append(history[-1])
         n_games -= 1
 
@@ -164,7 +167,7 @@ def simulate_games(n_games, player1_mode="r", player2_mode="r"):
 
 
 def play(player1_mode="r", player2_mode="r",
-         nn_file='NN/MLP_Tic_Tac_Toe'):
+         nn_file='MLPS/MLP_Tic_Tac_Toe'):
     """
     The main cycle of the
     tic_tac_toe game, here all
