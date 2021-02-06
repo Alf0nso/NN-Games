@@ -90,7 +90,8 @@ the MLP's, all of those can be found on the neural_net.py
 file.
 * Things to do next
 
-- [ ] Organize all the files in separate folders.
-- [ ] Consider looking into reinforcement learning.
+- [X] +Organize all the files in separate folders.+
 - [ ] Getting good data of Tic Tac Toe games for testing.
 - [ ] Adapt playing function for the NN to train on the game it just played 
+- [ ] Consider looking into reinforcement learning.
+- [ ] Correct default files in Games package
