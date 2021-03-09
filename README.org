@@ -95,3 +95,4 @@ file.
 - [ ] Adapt playing function for the NN to train on the game it just played 
 - [ ] Consider looking into reinforcement learning.
 - [ ] Correct default files in Games package
+- [ ] Correct README.org
