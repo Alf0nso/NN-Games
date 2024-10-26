@@ -31,7 +31,7 @@ that where train, or to simulate games between
 both neural networks and random generated moves.
 
 #+begin_src python :results output :exports both
-py main.py
+  py main.py
 #+end_src
 
 * Play around
