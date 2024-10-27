@@ -12,3 +12,9 @@ board create_board(int x, int y) {
   
   return board;
 }
+
+void fill_board(int x, int y, int fill, board b) {
+  for (int i = 0; i < x; ++i)
+    for (int j = 0; j < y; ++j)
+      b[i][j] = fill;
+}
